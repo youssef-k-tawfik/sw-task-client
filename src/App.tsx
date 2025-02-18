@@ -1,15 +1,19 @@
+// libraries
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Layout from "./Layout";
-import NotFound from "./NotFound";
-
-import { Loading } from "./components/Loading";
+// pages
 import { Category } from "./pages/Category";
 const ProductDetails = lazy(
   () => import("./pages/ProductDetails/ProductDetails")
 );
 
+// components
+import Layout from "./Layout";
+import NotFound from "./NotFound";
+import { Loading } from "./components/ui/Loading";
+
+// routes
 const routes = createBrowserRouter([
   {
     path: "/",
