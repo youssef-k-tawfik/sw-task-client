@@ -1,6 +1,11 @@
 import Style from "./Loading.module.css";
 
-export default function Loading() {
+/**
+ * Loading component displays a loading animation with a shopping cart SVG.
+ *
+ * @returns {JSX.Element} A JSX element containing the loading animation.
+ */
+const Loading: React.FC = (): JSX.Element => {
   return (
     <div className="flex justify-center my-7">
       <div className={Style.preloader}>
@@ -63,4 +68,6 @@ export default function Loading() {
       </div>
     </div>
   );
-}
+};
+
+export default Loading;
