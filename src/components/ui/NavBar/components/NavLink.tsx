@@ -12,7 +12,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
   const isActive = location.pathname === to;
 
   return (
-    <li className={`${isActive ? Style.active : ""} p-4`}>
+    <li className={`${isActive ? Style.active : ""} p-4 uppercase`}>
       <a href={to}>{children}</a>
     </li>
   );
