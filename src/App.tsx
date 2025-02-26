@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // pages
-import { Category } from "./pages/Category";
+const Category = lazy(() => import("./pages/Category/Category"));
 const ProductDetails = lazy(
   () => import("./pages/ProductDetails/ProductDetails")
 );
@@ -19,9 +19,30 @@ const routes = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Category category="all" /> },
-      { path: "/clothes", element: <Category category="clothes" /> },
-      { path: "/tech", element: <Category category="tech" /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Category category="all" />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/clothes",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Category category="clothes" />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/tech",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Category category="tech" />
+          </Suspense>
+        ),
+      },
       {
         path: "/product/:id",
         element: (

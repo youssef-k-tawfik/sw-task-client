@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Style from "../NavBar.module.css";
 
 interface NavLinkProps {
@@ -13,7 +13,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
 
   return (
     <li className={`${isActive ? Style.active : ""} p-4 uppercase`}>
-      <a href={to}>{children}</a>
+      <Link to={to}>{children}</Link>
     </li>
   );
 };
