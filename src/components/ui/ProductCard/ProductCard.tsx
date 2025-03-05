@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="relative h-[330px]">
           <img
             src={product.gallery[0]}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             alt="product image"
           />
           {!product.inStock && (

@@ -3,10 +3,14 @@
  *
  * @returns {JSX.Element} The rendered footer element.
  */
-export default function Footer(): JSX.Element {
+const Footer: React.FC = (): JSX.Element => {
   return (
-    <footer className="bg-gray-200">
-      <p className="text-center">&copy; {new Date().getFullYear()} Zeke Store . All Rights Reserved.</p>
+    <footer className="bg-gray-100">
+      <p className="text-center">
+        &copy; {new Date().getFullYear()} Zeke Store . All Rights Reserved.
+      </p>
     </footer>
   );
-}
+};
+
+export default Footer;
