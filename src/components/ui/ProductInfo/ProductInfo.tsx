@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import HTMLReactParser from "html-react-parser";
-import { Product } from "../../../types/Product";
+
+import { Product } from "../../../types";
 import Style from "./ProductInfo.module.css";
 
 interface AttributeSelection {

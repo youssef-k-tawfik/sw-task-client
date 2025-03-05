@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product } from "../types/Product";
+import { Product } from "../types";
 
 interface Options {
   category?: string;

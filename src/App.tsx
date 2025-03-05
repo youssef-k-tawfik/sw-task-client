@@ -3,14 +3,16 @@ import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // pages
-const Category = lazy(() => import("./pages/CategoryPage/CategoryPage"));
-const ProductDetails = lazy(
-  () => import("./pages/ProductDetailPage/ProductDetailPage")
+const Category = lazy(() =>
+  import("./pages").then((module) => ({ default: module.Category }))
+);
+const ProductDetails = lazy(() =>
+  import("./pages").then((module) => ({ default: module.ProductDetailPage }))
 );
 
 // components
 import Layout from "./Layout";
-import { NotFound } from "./components/ui/NotFound";
+import { NotFound } from "./components/ui";
 
 // routes
 const routes = createBrowserRouter([

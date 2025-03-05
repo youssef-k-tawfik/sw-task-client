@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Loading } from "../../components/ui/Loading";
-import { ProductGallery } from "../../components/ui/ProductGallery";
-import { ProductInfo } from "../../components/ui/ProductInfo";
-import { ErrorMessage } from "../../components/ui/ErrorMessage";
+import {
+  ErrorMessage,
+  Loading,
+  ProductGallery,
+  ProductInfo,
+} from "../../components/ui";
 
-import { Product } from "../../types/Product";
+import { Product } from "../../types";
 
 import fetchProducts from "../../services/api";
 
