@@ -55,7 +55,7 @@ const ProductDetailPage: React.FC = (): JSX.Element => {
   if (error || !product) return <ErrorMessage error={error} />;
 
   return (
-    <div className="flex flex-col lg:flex-row py-10">
+    <div className="flex gap-8 flex-col lg:flex-row lg:gap-0 py-10">
       <ProductGallery images={product.gallery} />
       <ProductInfo product={product} />
     </div>

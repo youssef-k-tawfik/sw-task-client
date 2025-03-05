@@ -68,7 +68,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
                     style={{ backgroundColor: attribute.value }}
                   />
                 ) : (
-                  attribute.value
+                  <span
+                    className="block w-14 text-center"
+                  >
+                    {attribute.value}
+                  </span>
                 )}
               </li>
             ))}
@@ -82,7 +86,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
       </div>
       <button
         onClick={handleAddToCart}
-        className="uppercase bg-primary text-white py-2 px-4"
+        className="uppercase bg-primary text-white py-2 px-4 w-full"
       >
         Add to cart
       </button>

@@ -27,6 +27,9 @@ Roboto Condensed
     font-family: var(--font-raleway);
     color: var(--color-primary-font-color);
   }
+  button {
+    cursor: pointer;
+  }
 }
 
 @layer utilities {
