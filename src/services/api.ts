@@ -1,6 +1,11 @@
 import axios from "axios";
 import { Product } from "../types/Product";
 
+interface Options {
+  category?: string;
+  id?: string;
+}
+
 // Create an axios instance
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/graphql",
@@ -12,15 +17,16 @@ const axiosInstance = axios.create({
 /**
  * Fetches products from the API.
  *
- * @param {string} [category] - Optional category to filter products by.
- * @param {string} [id] - Optional product ID to fetch a single product.
+ * @param {Options} [options] - Optional parameters to filter products by category or ID.
  * @returns {Promise<Product[]>} - A promise that resolves to the list of products.
  * @throws {Error} - Throws an error if the request fails.
  */
 const fetchProducts = async (
-  category?: string,
-  id?: string
+  options: Options = {},
+  signal?: AbortSignal
 ): Promise<Product[]> => {
+  const { category, id } = options;
+
   // manage filters
   const filters: string[] = [];
   if (category !== "all" && category) {
@@ -68,11 +74,17 @@ const fetchProducts = async (
     `;
 
   try {
-    const response = await axiosInstance.post("", { query });
+    const response = await axiosInstance.post("", { query }, { signal });
     return response.data.data.products;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
+  } catch (err) {
+    if (
+      err instanceof Error &&
+      err.name !== "CanceledError" &&
+      err.name !== "AbortError"
+    ) {
+      console.error("Error fetching products:", err);
+    }
+    throw err;
   }
 };
 
