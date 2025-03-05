@@ -1,17 +1,16 @@
 // libraries
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // pages
-const Category = lazy(() => import("./pages/Category/Category"));
+const Category = lazy(() => import("./pages/CategoryPage/CategoryPage"));
 const ProductDetails = lazy(
-  () => import("./pages/ProductDetails/ProductDetails")
+  () => import("./pages/ProductDetailPage/ProductDetailPage")
 );
 
 // components
 import Layout from "./Layout";
-import NotFound from "./NotFound";
-import { Loading } from "./components/ui/Loading";
+import { NotFound } from "./components/ui/NotFound";
 
 // routes
 const routes = createBrowserRouter([
@@ -21,35 +20,19 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Category category="all" />
-          </Suspense>
-        ),
+        element: <Category category="all" />,
       },
       {
         path: "/clothes",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Category category="clothes" />
-          </Suspense>
-        ),
+        element: <Category category="clothes" />,
       },
       {
         path: "/tech",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Category category="tech" />
-          </Suspense>
-        ),
+        element: <Category category="tech" />,
       },
       {
         path: "/product/:id",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <ProductDetails />
-          </Suspense>
-        ),
+        element: <ProductDetails />,
       },
       { path: "*", element: <NotFound /> },
     ],

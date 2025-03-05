@@ -1,3 +1,6 @@
+import { AttributeSet } from "./AttributeSet";
+import { Price } from "./Price";
+
 export interface Product {
   id: string;
   name: string;
@@ -8,27 +11,4 @@ export interface Product {
   brand: string;
   attributes: AttributeSet[];
   prices: Price[];
-}
-
-interface AttributeSet {
-  id: string;
-  name: string;
-  type: string;
-  items: Attribute[];
-}
-
-interface Attribute {
-  id: string;
-  displayValue: string;
-  value: string;
-}
-
-interface Price {
-  amount: number;
-  currency: Currency;
-}
-
-interface Currency {
-  symbol: string;
-  label: string;
 }
