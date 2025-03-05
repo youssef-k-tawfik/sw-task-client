@@ -1,4 +1,4 @@
-import CartIcon from "../../../assets/icons/CartIcon";
+import CartIcon from "@/assets/icons/CartIcon";
 import NavLink from "./components/NavLink";
 
 /**

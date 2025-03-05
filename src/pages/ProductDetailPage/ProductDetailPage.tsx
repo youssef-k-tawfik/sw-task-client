@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import fetchProducts from "@/services/api";
+import { Product } from "@/types";
 import {
   ErrorMessage,
   Loading,
   ProductGallery,
   ProductInfo,
-} from "../../components/ui";
+} from "@/components/ui";
 
-import { Product } from "../../types";
-
-import fetchProducts from "../../services/api";
 
 /**
  * ProductDetails component displays the Product Detail Page (PDP) for a product.

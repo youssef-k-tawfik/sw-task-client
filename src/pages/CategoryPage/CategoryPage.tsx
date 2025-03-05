@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ProductCard, Loading } from "../../components/ui";
-import fetchProducts from "../../services/api";
-import { Product } from "../../types";
+import { ProductCard, Loading } from "@/components/ui";
+import fetchProducts from "@/services/api";
+import { Product } from "@/types";
 
 interface CategoryProps {
   category: string;
