@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ProductCard, Loading } from "@/components/ui";
 import fetchProducts from "@/services/api";
 import { Product } from "@/types";
@@ -21,15 +21,12 @@ const Category: React.FC<CategoryProps> = ({
 }: CategoryProps): JSX.Element => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const abortController = new AbortController();
 
     const loadProducts = async () => {
       try {
-        setLoading(true);
-
         const products = await fetchProducts(
           { category },
           abortController.signal
@@ -47,8 +44,6 @@ const Category: React.FC<CategoryProps> = ({
             `Failed to fetch ${category} products. Please try again later.`
           );
         }
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -59,16 +54,12 @@ const Category: React.FC<CategoryProps> = ({
     };
   }, [category]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <div className="py-14">
         <h1 className="capitalize mb-14">{category}</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -77,7 +68,7 @@ const Category: React.FC<CategoryProps> = ({
           ))}
         </div>
       </div>
-    </>
+    </Suspense>
   );
 };
 
