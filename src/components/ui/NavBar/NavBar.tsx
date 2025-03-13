@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CartIcon from "@/assets/icons/CartIcon";
+import { CartIcon } from "@/assets/icons";
 import NavLink from "./components/NavLink";
 import { CartOverlay } from "../CartOverlay";
 

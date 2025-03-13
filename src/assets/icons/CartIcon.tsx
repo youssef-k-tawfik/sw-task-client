@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * CartIcon component renders an SVG icon representing a shopping cart.
+ *
+ * @returns {JSX.Element} The rendered SVG icon.
+ */
 const CartIcon: React.FC<React.SVGProps<SVGSVGElement>> = (): JSX.Element => {
   return (
     <svg
@@ -26,4 +31,4 @@ const CartIcon: React.FC<React.SVGProps<SVGSVGElement>> = (): JSX.Element => {
   );
 };
 
-export default CartIcon;
+export { CartIcon };

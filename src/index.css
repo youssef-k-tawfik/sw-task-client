@@ -26,6 +26,7 @@ Roboto Condensed
   body {
     font-family: var(--font-raleway);
     color: var(--color-primary-font-color);
+    scrollbar-color: #5ece7b #fff;
   }
   button {
     cursor: pointer;
