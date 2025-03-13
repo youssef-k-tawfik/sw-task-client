@@ -13,6 +13,7 @@ const ProductDetails = lazy(() =>
 // components
 import Layout from "@/Layout";
 import { NotFound } from "@/components/ui";
+import { CartProvider } from "@/contexts/Cart";
 
 // routes
 const routes = createBrowserRouter([
@@ -44,7 +45,9 @@ const routes = createBrowserRouter([
 export default function App() {
   return (
     <>
-      <RouterProvider router={routes} />
+      <CartProvider>
+        <RouterProvider router={routes} />
+      </CartProvider>
     </>
   );
 }
