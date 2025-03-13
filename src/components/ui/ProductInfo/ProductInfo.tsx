@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import HTMLReactParser from "html-react-parser";
 
 import { Product } from "@/types";
-import Style from "./ProductInfo.module.css";
+import { useCart } from "@/hooks";
+import { ProductAttributes } from "@/components/ui";
 
 interface AttributeSelection {
   [attributeName: string]: string;
@@ -13,6 +14,7 @@ interface ProductInfoProps {
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
+  const { addToCart } = useCart();
   const [selectedAttributes, setSelectedAttributes] =
     useState<AttributeSelection>({});
 
@@ -22,9 +24,15 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
 
   const handleAddToCart = () => {
     console.log("Adding to cart with attributes:", selectedAttributes);
-    // Additional add-to-cart logic
+    addToCart({
+      product,
+      quantity: 1,
+      selectedAttributes,
+    });
+    return;
   };
 
+  // Set initial selected attributes
   useEffect(() => {
     if (product.attributes.length) {
       const initialAttributes = product.attributes.reduce(
@@ -43,43 +51,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
       {/* product title */}
       <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
       {/* Attributes */}
-      {product.attributes.map((attrSet) => (
-        <div key={attrSet.id} className="mb-4">
-          <h3 className="font-semibold mb-2">{attrSet.name}:</h3>
-          <ul className="flex space-x-4">
-            {attrSet.items.map((attribute) => (
-              <li
-                key={attribute.value}
-                className={`cursor-pointer border-2 ${
-                  attribute.value === selectedAttributes[attrSet.name]
-                    ? "border-primary"
-                    : ""
-                } ${
-                  attrSet.type === "swatch"
-                    ? Style.swatch_item
-                    : Style.text_item
-                }`}
-                onClick={() =>
-                  handleAttributeChange(attrSet.name, attribute.value)
-                }
-              >
-                {attrSet.type === "swatch" ? (
-                  <span
-                    className="block w-8 h-8"
-                    style={{ backgroundColor: attribute.value }}
-                  />
-                ) : (
-                  <span
-                    className="block w-14 text-center"
-                  >
-                    {attribute.value}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <ProductAttributes
+        attributes={product.attributes}
+        selectedAttributes={selectedAttributes}
+        onAttributeChange={handleAttributeChange}
+      />
       {/* Price */}
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Price:</h2>
