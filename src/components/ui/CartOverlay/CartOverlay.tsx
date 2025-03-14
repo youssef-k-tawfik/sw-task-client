@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
 import { useCart } from "@/hooks";
-import { ProductAttributes } from "../ProductAttributes";
-import { PlusIcon, MinusIcon } from "@/assets/icons";
+import CartItem from "./components/CartItem";
 
 interface CartOverlayProps {
   onClose: () => void;
 }
 
 const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
-  const { cartItems, getCartTotalCost, updateQuantity } = useCart();
+  const { cartItems, getCartTotalCost } = useCart();
 
   const totalQuantity = useMemo(() => {
     return cartItems.reduce((total, { quantity }) => total + quantity, 0);
@@ -32,58 +31,13 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
               style={{ scrollbarGutter: "stable" }}
               className="space-y-4 max-h-96 overflow-auto my-4"
             >
-              {cartItems.map(({ product, quantity, selectedAttributes }) => (
-                <li
-                  key={product.id + JSON.stringify(selectedAttributes)}
-                  className="flex gap-4 justify-between"
-                >
-                  {/* product details */}
-                  <div className="grow">
-                    <h3>{product.name}</h3>
-                    <p>${product.prices[0].amount}</p>
-                    <ProductAttributes
-                      attributes={product.attributes}
-                      selectedAttributes={selectedAttributes}
-                      variant="small"
-                    />
-                  </div>
-                  {/* product quantity */}
-                  <div className="flex flex-col justify-between items-center">
-                    <button
-                      className="p-1 border-2 text-lg font-semibold"
-                      onClick={() =>
-                        updateQuantity(
-                          product.id,
-                          selectedAttributes,
-                          quantity + 1
-                        )
-                      }
-                    >
-                      <PlusIcon />
-                    </button>
-                    <p>{quantity}</p>
-                    <button
-                      className="p-1 border-2 text-lg font-semibold"
-                      onClick={() =>
-                        updateQuantity(
-                          product.id,
-                          selectedAttributes,
-                          quantity - 1
-                        )
-                      }
-                    >
-                      <MinusIcon />
-                    </button>
-                  </div>
-                  {/* product main image */}
-                  <div className="w-1/3">
-                    <img
-                      src={product?.gallery[0]}
-                      alt=""
-                      className="block w-full"
-                    />
-                  </div>
-                </li>
+              {cartItems.map((item) => (
+                <CartItem
+                  key={
+                    item.product.id + JSON.stringify(item.selectedAttributes)
+                  }
+                  item={item}
+                />
               ))}
             </ul>
           ) : (

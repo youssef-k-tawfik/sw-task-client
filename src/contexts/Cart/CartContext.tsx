@@ -96,30 +96,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    *
    * @param {CartItem} item - The cart item to add.
    */
-  const addToCart = useCallback(
-    (item: CartItem) => {
-      setCartItems((prevItems) => {
-        // Check if item already exists in the cart
-        const itemIndex = prevItems.findIndex(
-          (cartItem) =>
-            cartItem.product.id === item.product.id &&
-            JSON.stringify(cartItem.selectedAttributes) ===
-              JSON.stringify(item.selectedAttributes)
-        );
+  const addToCart = useCallback((item: CartItem) => {
+    setCartItems((prevItems) => {
+      // Check if item already exists in the cart
+      const itemIndex = prevItems.findIndex(
+        (cartItem) =>
+          cartItem.product.id === item.product.id &&
+          JSON.stringify(cartItem.selectedAttributes) ===
+            JSON.stringify(item.selectedAttributes)
+      );
 
-        // If item already exists, increase quantity by one
-        if (itemIndex > -1) {
-          const updatedItems = [...prevItems];
-          updatedItems[itemIndex].quantity += 1;
-          return updatedItems;
-        }
+      // If item already exists, increase quantity by one
+      if (itemIndex > -1) {
+        const updatedItems = [...prevItems];
+        updatedItems[itemIndex].quantity += 1;
+        return updatedItems;
+      }
 
-        // else Add new item to cart.
-        return [...prevItems, item];
-      });
-    },
-    [updateQuantity]
-  );
+      // else Add new item to cart.
+      return [...prevItems, item];
+    });
+  }, []);
 
   /**
    * Clears all items from the cart.
