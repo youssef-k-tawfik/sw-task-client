@@ -32,9 +32,11 @@ const NavBar: React.FC = (): JSX.Element => {
       </div>
       <button onClick={toggleCartOverlay} className="relative">
         <CartIcon size={25} />
-        <span className="text-sm text-white rounded-full w-6 h-6 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid items-center">
-          {getCartTotalQuantity}
-        </span>
+        {getCartTotalQuantity > 0 && (
+          <span className="text-sm text-white rounded-full w-6 h-6 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid items-center">
+            {getCartTotalQuantity}
+          </span>
+        )}
       </button>
       {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
     </div>

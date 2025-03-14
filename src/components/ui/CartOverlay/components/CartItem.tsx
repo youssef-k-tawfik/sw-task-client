@@ -14,7 +14,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const { updateQuantity } = useCart();
 
   return (
-    <li className="flex gap-4 justify-between">
+    <li className="flex gap-4 justify-between pb-4">
       {/* product details */}
       <div className="grow">
         <h3>{product.name}</h3>
@@ -47,7 +47,11 @@ const CartItem: React.FC<CartItemProps> = ({
       </div>
       {/* product main image */}
       <div className="w-1/3">
-        <img src={product?.gallery[0]} alt="" className="block w-full" />
+        <img
+          src={product?.gallery[0]}
+          alt="product image"
+          className="block w-full h-full object-contain"
+        />
       </div>
     </li>
   );

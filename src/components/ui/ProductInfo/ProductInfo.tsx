@@ -62,8 +62,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         <p className="text-lg">${product.prices[0].amount.toFixed(2)}</p>
       </div>
       <button
+        disabled={!product.inStock}
         onClick={handleAddToCart}
-        className="uppercase bg-primary text-white py-2 px-4 w-full"
+        className="uppercase bg-primary hover:bg-green-500 text-white py-2 px-4 w-full"
       >
         Add to cart
       </button>

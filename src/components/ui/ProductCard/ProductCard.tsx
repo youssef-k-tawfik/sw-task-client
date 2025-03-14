@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { Product } from "@/types";
+import { CartIcon } from "@/assets/icons";
+import { useCart } from "@/hooks";
 
 interface ProductCardProps {
   product: Product;
@@ -16,8 +18,23 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps): JSX.Element => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    const selectedAttributes = product.attributes.reduce(
+      (acc, attrSet) => ({ ...acc, [attrSet.name]: attrSet.items[0].value }),
+      {}
+    );
+
+    addToCart({
+      product,
+      quantity: 1,
+      selectedAttributes,
+    });
+  };
+
   return (
-    <Link to={`/product/${product.id}`} className="block">
+    <Link to={`/product/${product.id}`} className="block group">
       <div className="p-2 hover:shadow-lg transition duration-300 ease-in-out hover:scale-105 rounded-lg">
         <div className="relative h-[330px]">
           <img
@@ -25,7 +42,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full h-full object-contain"
             alt="product image"
           />
-          {!product.inStock && (
+          {product.inStock ? (
+            <div className="absolute bottom-2 right-2 transform translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
+              <button
+                className="bg-primary border-primary hover:bg-green-500 rounded-full p-2 w-10 h-10 flex justify-center items-center"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleAddToCart();
+                }}
+              >
+                <CartIcon size={20} color="#fff" />
+              </button>
+            </div>
+          ) : (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <p className="text-white text-2xl">Out of Stock</p>
             </div>

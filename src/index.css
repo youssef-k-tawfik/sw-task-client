@@ -29,7 +29,7 @@ Roboto Condensed
     scrollbar-color: #5ece7b #fff;
   }
   button {
-    cursor: pointer;
+    @apply transition-all duration-200 cursor-pointer border disabled:bg-gray-300! disabled:text-gray-500! disabled:border-gray-400! disabled:cursor-not-allowed disabled:opacity-50;
   }
 }
 
