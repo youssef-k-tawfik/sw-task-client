@@ -16,5 +16,6 @@ export interface CartContextType {
     quantity: number
   ) => void;
   clearCart: () => void;
-  getCartTotalCost: () => number;
+  getCartTotalCost: number;
+  getCartTotalQuantity: number;
 }

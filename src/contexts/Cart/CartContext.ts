@@ -11,5 +11,6 @@ export const CartContext: React.Context<CartContextType> =
     removeFromCart: () => {},
     updateQuantity: () => {},
     clearCart: () => {},
-    getCartTotalCost: () => 0,
+    getCartTotalCost: 0,
+    getCartTotalQuantity: 0,
   });

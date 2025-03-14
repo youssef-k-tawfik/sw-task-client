@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useCart } from "@/hooks";
 import CartItem from "./components/CartItem";
 
@@ -7,11 +7,7 @@ interface CartOverlayProps {
 }
 
 const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
-  const { cartItems, getCartTotalCost } = useCart();
-
-  const totalQuantity = useMemo(() => {
-    return cartItems.reduce((total, { quantity }) => total + quantity, 0);
-  }, [cartItems]);
+  const { cartItems, getCartTotalCost, getCartTotalQuantity } = useCart();
 
   const handlePlaceOrder = () => {
     console.log("Placing order clicked!");
@@ -23,7 +19,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       <div className="absolute top-full right-0 w-[450px] shadow-lg bg-white z-10">
         <div className="p-4">
           <h2 className="text-lg font-semibold">
-            My Bag, {totalQuantity} items
+            My Bag, {getCartTotalQuantity} items
           </h2>
           {/* cart items */}
           {cartItems.length > 0 ? (
@@ -46,7 +42,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           {/* Price */}
           <div className="flex justify-between items-center">
             <p>Total</p>
-            <p>${getCartTotalCost()}</p>
+            <p>${getCartTotalCost}</p>
           </div>
           {/* Place order button */}
           <button

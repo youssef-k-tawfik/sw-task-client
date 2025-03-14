@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CartIcon } from "@/assets/icons";
 import NavLink from "./components/NavLink";
 import { CartOverlay } from "../CartOverlay";
+import { useCart } from "@/hooks";
 
 /**
  * NavBar component renders a navigation bar with links to different categories
@@ -11,6 +12,7 @@ import { CartOverlay } from "../CartOverlay";
  */
 const NavBar: React.FC = (): JSX.Element => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { getCartTotalQuantity } = useCart();
 
   const toggleCartOverlay = () => {
     setIsCartOpen(!isCartOpen);
@@ -28,8 +30,11 @@ const NavBar: React.FC = (): JSX.Element => {
       <div>
         <img src="/logo.svg" alt="Logo" className="h-8" />
       </div>
-      <button onClick={toggleCartOverlay}>
-        <CartIcon />
+      <button onClick={toggleCartOverlay} className="relative">
+        <CartIcon size={25} />
+        <span className="text-sm text-white rounded-full w-6 h-6 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid items-center">
+          {getCartTotalQuantity}
+        </span>
       </button>
       {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
     </div>

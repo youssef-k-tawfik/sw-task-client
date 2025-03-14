@@ -1,16 +1,21 @@
 import React from "react";
+interface CartIconProps extends React.SVGProps<SVGSVGElement> {
+  size?: number;
+}
 
 /**
  * CartIcon component renders an SVG icon representing a shopping cart.
  *
  * @returns {JSX.Element} The rendered SVG icon.
  */
-const CartIcon: React.FC<React.SVGProps<SVGSVGElement>> = (): JSX.Element => {
+const CartIcon: React.FC<CartIconProps> = ({
+  size,
+}: CartIconProps): JSX.Element => {
   return (
     <svg
       className="h-8"
-      width="20"
-      height="19"
+      width={size}
+      height={size}
       viewBox="0 0 20 19"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

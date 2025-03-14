@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { CartItem } from "@/types";
 import { CartContextType } from "./CartContext.type";
 import { CartContext } from "./CartContext";
@@ -130,12 +130,21 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    *
    * @returns {number} The total cost.
    */
-  const getCartTotalCost = useCallback((): number => {
+  const getCartTotalCost = useMemo((): number => {
     const totalCost = cartItems.reduce((total, item) => {
       const price = item.product.prices[0]?.amount || 0;
       return total + price * item.quantity;
     }, 0);
     return Number(totalCost.toFixed(2));
+  }, [cartItems]);
+
+  /**
+   * Calculates the total quantity of all items in the cart.
+   *
+   * @returns {number} The total quantity.
+   */
+  const getCartTotalQuantity = useMemo(() => {
+    return cartItems.reduce((total, { quantity }) => total + quantity, 0);
   }, [cartItems]);
 
   const value: CartContextType = {
@@ -145,6 +154,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     updateQuantity,
     clearCart,
     getCartTotalCost,
+    getCartTotalQuantity,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
