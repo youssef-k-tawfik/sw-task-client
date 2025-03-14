@@ -1,6 +1,12 @@
 import classNames from "classnames";
 import React from "react";
 
+const variantClasses: Record<string, string> = {
+  small: "w-5 h-5",
+  default: "w-8 h-8",
+  large: "w-12 h-12",
+};
+
 interface SwatchAttributeProps {
   attribute: { value: string };
   isSelected: boolean;
@@ -17,11 +23,11 @@ const SwatchAttribute: React.FC<SwatchAttributeProps> = ({
   clickable = true,
 }) => {
   const baseClasses = "p-0.5";
-  const variantClasses = variant === "small" ? "w-5 h-5" : "w-8 h-8";
+  const variantClass = variantClasses[variant] || variantClasses.default;
 
   return (
     <li
-      className={classNames(baseClasses, variantClasses, {
+      className={classNames(baseClasses, variantClass, {
         "border-primary border-2": isSelected,
         "cursor-pointer": clickable,
         "cursor-default": !clickable,
