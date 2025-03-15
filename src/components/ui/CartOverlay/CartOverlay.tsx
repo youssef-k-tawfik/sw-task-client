@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart } from "@/hooks";
-import CartItem from "./components/CartItem";
+import CartItemsList from "./components/CartItemsList";
 
 interface CartOverlayProps {
   onClose: () => void;
@@ -32,23 +32,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
             </button>
           </div>
           {/* cart items */}
-          {cartItems.length > 0 ? (
-            <ul
-              style={{ scrollbarGutter: "stable" }}
-              className="divide-slate-200 space-y-4 max-h-96 overflow-auto my-4 divide-y-1 "
-            >
-              {cartItems.map((item) => (
-                <CartItem
-                  key={
-                    item.product.id + JSON.stringify(item.selectedAttributes)
-                  }
-                  item={item}
-                />
-              ))}
-            </ul>
-          ) : (
-            <p className="text-center">Your cart is empty.</p>
-          )}
+          <CartItemsList items={cartItems} />
           {/* Price */}
           <div className="flex justify-between items-center">
             <p>Total</p>
@@ -58,6 +42,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           <button
             className="w-full py-2 bg-primary text-white uppercase"
             onClick={handlePlaceOrder}
+            disabled={getCartTotalQuantity === 0}
           >
             Place Order
           </button>
