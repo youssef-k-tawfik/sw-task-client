@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Product } from "@/types";
+import { Product, SelectedAttribute } from "@/types";
 import { CartIcon } from "@/assets/icons";
 import { useCart } from "@/hooks";
 
@@ -21,9 +21,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    const selectedAttributes = product.attributes.reduce(
-      (acc, attrSet) => ({ ...acc, [attrSet.name]: attrSet.items[0].value }),
-      {}
+    const selectedAttributes = product.attributes.reduce<SelectedAttribute[]>(
+      (acc, attrSet) => [
+        ...acc,
+        { id: attrSet.id, value: attrSet.items[0].value },
+      ],
+      []
     );
 
     addToCart({
@@ -35,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Link to={`/product/${product.id}`} className="block group">
-      <div className="p-2 hover:shadow-lg transition duration-300 ease-in-out hover:scale-105 rounded-lg">
+      <div className="p-2 hover:shadow-lg transition duration-300 ease-in-out hover:scale-105">
         <div className="relative h-[330px]">
           <img
             src={product.gallery[0]}

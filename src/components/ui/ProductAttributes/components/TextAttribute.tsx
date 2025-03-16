@@ -16,6 +16,17 @@ interface TextAttributeProps {
   clickable?: boolean;
 }
 
+/**
+ * TextAttribute component to display a text attribute with different styles based on props.
+ * 
+ * @param {TextAttributeProps} props - The props for the component.
+ * @param {Attribute} props.attribute - The attribute object containing value and other properties.
+ * @param {boolean} props.isSelected - Indicates if the attribute is selected.
+ * @param {() => void} props.onClick - Function to call when the attribute is clicked.
+ * @param {"default" | "small"} [props.variant="default"] - The variant of the attribute, can be "default" or "small".
+ * @param {boolean} [props.clickable=true] - Indicates if the attribute is clickable.
+ * @returns {JSX.Element} The rendered text attribute component.
+ */
 const TextAttribute: React.FC<TextAttributeProps> = ({
   attribute,
   isSelected,

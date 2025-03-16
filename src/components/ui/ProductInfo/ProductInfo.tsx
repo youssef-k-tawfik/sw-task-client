@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HTMLReactParser from "html-react-parser";
 
-import { Product } from "@/types";
+import { Product, SelectedAttribute } from "@/types";
 import { useCart } from "@/hooks";
 import { ProductAttributes } from "@/components/ui";
-
-interface AttributeSelection {
-  [attributeName: string]: string;
-}
 
 interface ProductInfoProps {
   product: Product;
@@ -15,12 +11,36 @@ interface ProductInfoProps {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   const { addToCart } = useCart();
-  const [selectedAttributes, setSelectedAttributes] =
-    useState<AttributeSelection>({});
+  const [selectedAttributes, setSelectedAttributes] = useState<
+    SelectedAttribute[]
+  >([]);
 
-  const handleAttributeChange = (attributeSetName: string, value: string) => {
-    setSelectedAttributes((prev) => ({ ...prev, [attributeSetName]: value }));
-  };
+  // Set initial selected attributes
+  useEffect(() => {
+    if (product.attributes.length) {
+      const initialAttributes = product.attributes.reduce<SelectedAttribute[]>(
+        (acc, attrSet) => [
+          ...acc,
+          { id: attrSet.id, value: attrSet.items[0].value },
+        ],
+        []
+      );
+      setSelectedAttributes(initialAttributes);
+    }
+  }, [product.attributes]);
+
+  const handleAttributeChange = useCallback(
+    (attributeSetId: string, value: string) => {
+      setSelectedAttributes((prev) =>
+        prev.some((attr) => attr.id === attributeSetId)
+          ? prev.map((attr) =>
+              attr.id === attributeSetId ? { id: attributeSetId, value } : attr
+            )
+          : [...prev, { id: attributeSetId, value }]
+      );
+    },
+    []
+  );
 
   const handleAddToCart = () => {
     console.log("Adding to cart with attributes:", selectedAttributes);
@@ -31,20 +51,6 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
     });
     return;
   };
-
-  // Set initial selected attributes
-  useEffect(() => {
-    if (product.attributes.length) {
-      const initialAttributes = product.attributes.reduce(
-        (acc, attrSet) => ({
-          ...acc,
-          [attrSet.name]: attrSet.items[0].value,
-        }),
-        {}
-      );
-      setSelectedAttributes(initialAttributes);
-    }
-  }, [product.attributes]);
 
   return (
     <div className="lg:w-1/3">

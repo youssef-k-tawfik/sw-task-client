@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { CartItem } from "@/types";
+import { CartItem, SelectedAttribute } from "@/types";
 import { CartContextType } from "./CartContext.type";
 import { CartContext } from "./CartContext";
 
@@ -31,10 +31,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({
   /**
    * Removes an item from the cart
    * @param {string} productId - The product ID
-   * @param {Record<string, string>} selectedAttributes - Selected attributes of the item
+   * @param {SelectedAttribute[]} selectedAttributes - Selected attributes of the item
    */
   const removeFromCart = useCallback(
-    (productId: string, selectedAttributes: Record<string, string>) => {
+    (productId: string, selectedAttributes: SelectedAttribute[]) => {
       setCartItems((prevItems) =>
         prevItems.filter(
           (item) =>
@@ -52,13 +52,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({
   /**
    * Updates the quantity of an item in the cart
    * @param {string} productId - The product ID
-   * @param {Record<string, string>} selectedAttributes - Selected attributes of the item
+   * @param {SelectedAttribute[]} selectedAttributes - Selected attributes of the item
    * @param {number} newQuantity - New quantity
    */
   const updateQuantity = useCallback(
     (
       productId: string,
-      selectedAttributes: Record<string, string>,
+      selectedAttributes: SelectedAttribute[],
       newQuantity: number
     ) => {
       // If the quantity is 0, remove the item.

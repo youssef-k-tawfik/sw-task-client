@@ -1,16 +1,11 @@
-import React from "react";
-import { generateRandomNumber } from "@/utils";
-import { AttributeSet } from "@/types";
+import React, { useRef } from "react";
+import { AttributeSet, SelectedAttribute } from "@/types";
 import { SwatchAttribute, TextAttribute } from "./components";
-
-interface AttributeSelection {
-  [attributeName: string]: string;
-}
 
 interface ProductAttributesProps {
   attributes: AttributeSet[];
-  selectedAttributes: AttributeSelection;
-  onAttributeChange?: (attributeSetName: string, value: string) => void;
+  selectedAttributes: SelectedAttribute[];
+  onAttributeChange?: (attributeSetId: string, value: string) => void;
   variant?: "default" | "small";
 }
 
@@ -31,60 +26,59 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
   selectedAttributes,
   onAttributeChange,
   variant,
-}) => {
+}: ProductAttributesProps): JSX.Element => {
+  const instanceIdRef = useRef(Math.random().toString(36).substr(2, 9));
   const clickable = !!onAttributeChange;
+
+  /**
+   * Render attribute items based on the attribute set type
+   *
+   * @param {AttributeSet} attrSet - The attribute set to render items for.
+   * @returns {JSX.Element[]} The rendered attribute items.
+   */
+  const renderAttributeItems = (attrSet: AttributeSet): JSX.Element[] =>
+    attrSet.items.map((attribute) => {
+      const selectedAttribute = selectedAttributes?.find(
+        (selected) => selected.id === attrSet.id
+      );
+      const isSelected = attribute.value === selectedAttribute?.value;
+
+      const onClick = () => {
+        if (onAttributeChange) {
+          onAttributeChange(attrSet.id, attribute.value);
+        }
+      };
+
+      // Generate a unique key for the attribute item
+      const key = `${instanceIdRef.current}-${attrSet.id}-${attribute.value}`;
+
+      return attrSet.type === "swatch" ? (
+        <SwatchAttribute
+          key={key}
+          attribute={attribute}
+          isSelected={isSelected}
+          onClick={onClick}
+          variant={variant}
+          clickable={clickable}
+        />
+      ) : (
+        <TextAttribute
+          key={key}
+          attribute={attribute}
+          isSelected={isSelected}
+          onClick={onClick}
+          variant={variant}
+          clickable={clickable}
+        />
+      );
+    });
 
   return (
     <>
       {attributes.map((attrSet) => (
-        <div key={attrSet.id + generateRandomNumber(5)} className="mb-4">
+        <div key={`${instanceIdRef.current}-${attrSet.id}`} className="mb-4">
           <h3 className="font-semibold mb-2">{attrSet.name}:</h3>
-          <ul className="flex space-x-2">
-            {/* Checking for the attribute set type */}
-            {attrSet.type === "swatch"
-              ? // If the attribute set type is swatch, render SwatchAttribute components
-                attrSet.items.map((attribute) => {
-                  const isSelected =
-                    attribute.value === selectedAttributes[attrSet.name];
-                  const onClick = () => {
-                    if (onAttributeChange) {
-                      onAttributeChange(attrSet.name, attribute.value);
-                    }
-                  };
-
-                  return (
-                    <SwatchAttribute
-                      key={attribute.value + generateRandomNumber(5)}
-                      attribute={attribute}
-                      isSelected={isSelected}
-                      onClick={onClick}
-                      variant={variant}
-                      clickable={clickable}
-                    />
-                  );
-                })
-              : // If the attribute set type is text, render TextAttribute components
-                attrSet.items.map((attribute) => {
-                  const isSelected =
-                    attribute.value === selectedAttributes[attrSet.name];
-                  const onClick = () => {
-                    if (onAttributeChange) {
-                      onAttributeChange(attrSet.name, attribute.value);
-                    }
-                  };
-
-                  return (
-                    <TextAttribute
-                      key={attribute.value + generateRandomNumber(5)}
-                      attribute={attribute}
-                      isSelected={isSelected}
-                      onClick={onClick}
-                      variant={variant}
-                      clickable={clickable}
-                    />
-                  );
-                })}
-          </ul>
+          <ul className="flex space-x-2">{renderAttributeItems(attrSet)}</ul>
         </div>
       ))}
     </>

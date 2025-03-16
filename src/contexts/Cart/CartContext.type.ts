@@ -1,4 +1,4 @@
-import { CartItem } from "@/types";
+import { CartItem, SelectedAttribute } from "@/types";
 
 /**
  * Defines the structure and operations of the cart context.
@@ -8,11 +8,11 @@ export interface CartContextType {
   addToCart: (item: CartItem) => void;
   removeFromCart: (
     productId: string,
-    selectedAttributes: Record<string, string>
+    selectedAttributes: SelectedAttribute[]
   ) => void;
   updateQuantity: (
     productId: string,
-    selectedAttributes: Record<string, string>,
+    selectedAttributes: SelectedAttribute[],
     quantity: number
   ) => void;
   clearCart: () => void;
