@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import fetchProducts from "@/services/api";
+import { fetchProducts } from "@/services/api";
 import { Product } from "@/types";
 import {
   ErrorMessage,

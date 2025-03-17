@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "@/hooks";
 import CartItemsList from "./components/CartItemsList";
+import { placeOrder } from "@/services/api";
+import { Loading } from "@/components/ui";
+import { OrderItem } from "@/types";
 
 interface CartOverlayProps {
   onClose: () => void;
@@ -9,10 +12,35 @@ interface CartOverlayProps {
 const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
   const { cartItems, getCartTotalCost, getCartTotalQuantity, clearCart } =
     useCart();
+  const [loading, setLoading] = useState(false);
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     console.log("Placing order clicked!");
-    // Place order logic here
+
+    setLoading(true);
+    try {
+      // Mapping cart items to the order item input format required by the backend.
+      const orderItems: OrderItem[] = cartItems.map((item) => ({
+        productId: item.product.id,
+        quantity: item.quantity,
+        selectedAttributes: item.selectedAttributes,
+      }));
+      console.log("Order items:", orderItems);
+
+      const result = await placeOrder(orderItems);
+      console.log("Order placed successfully:", result);
+
+      setOrderNumber(result);
+      console.log("Order number:", orderNumber);
+
+      clearCart();
+    } catch (error) {
+      console.error("Order placement failed:", error);
+      // Optionally show an error notification to the user.
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,8 +75,14 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
             Place Order
           </button>
         </div>
+        {/* Loading overlay */}
+        {loading && (
+          <div className="absolute inset-0 w-full h-full z-20 bg-white/75 flex items-center justify-center">
+            <Loading />
+          </div>
+        )}
       </div>
-      {/* shadow */}
+      {/* Backdrop */}
       <div
         className="fixed top-14 start-0 w-full h-full bg-black/50"
         onClick={onClose}

@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
-import { ProductCard, Loading } from "@/components/ui";
-import fetchProducts from "@/services/api";
+import { ProductCard, Loading, ErrorMessage } from "@/components/ui";
+import { fetchProducts } from "@/services/api";
 import { Product } from "@/types";
 
 interface CategoryProps {
@@ -55,7 +55,7 @@ const Category: React.FC<CategoryProps> = ({
   }, [category]);
 
   if (error) {
-    return <p className="text-red-500">{error}</p>;
+    return <ErrorMessage error={error} />;
   }
 
   return (
