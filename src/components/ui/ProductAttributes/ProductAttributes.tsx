@@ -1,12 +1,14 @@
 import React, { useRef } from "react";
 import { AttributeSet, SelectedAttribute } from "@/types";
 import { SwatchAttribute, TextAttribute } from "./components";
+import { kebabCase } from "@/utils";
 
 interface ProductAttributesProps {
   attributes: AttributeSet[];
   selectedAttributes: SelectedAttribute[];
   onAttributeChange?: (attributeSetId: string, value: string) => void;
   variant?: "default" | "small";
+  testIdPrefix?: string;
 }
 
 /**
@@ -26,6 +28,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
   selectedAttributes,
   onAttributeChange,
   variant,
+  testIdPrefix,
 }: ProductAttributesProps): JSX.Element => {
   const instanceIdRef = useRef(Math.random().toString(36).substr(2, 9));
   const clickable = !!onAttributeChange;
@@ -52,6 +55,13 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
       // Generate a unique key for the attribute item
       const key = `${instanceIdRef.current}-${attrSet.id}-${attribute.value}`;
 
+      // testid attribute if testIdPrefix is provided
+      const testId = testIdPrefix
+        ? `${testIdPrefix}-${kebabCase(attrSet.name)}-${kebabCase(
+            attribute.value
+          )}`
+        : "";
+
       return attrSet.type === "swatch" ? (
         <SwatchAttribute
           key={key}
@@ -60,6 +70,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
           onClick={onClick}
           variant={variant}
           clickable={clickable}
+          testId={testId}
         />
       ) : (
         <TextAttribute
@@ -69,6 +80,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
           onClick={onClick}
           variant={variant}
           clickable={clickable}
+          testId={testId}
         />
       );
     });
@@ -76,7 +88,13 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
   return (
     <>
       {attributes.map((attrSet) => (
-        <div key={`${instanceIdRef.current}-${attrSet.id}`} className="mb-4">
+        <div
+          key={`${instanceIdRef.current}-${attrSet.id}`}
+          className="mb-4"
+          data-testid={
+            testIdPrefix && `${testIdPrefix}-${kebabCase(attrSet.name)}`
+          }
+        >
           <h3 className="font-semibold mb-2">{attrSet.name}:</h3>
           <ul className="flex space-x-2">{renderAttributeItems(attrSet)}</ul>
         </div>

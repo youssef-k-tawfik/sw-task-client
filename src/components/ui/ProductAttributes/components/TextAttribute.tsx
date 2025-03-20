@@ -14,11 +14,12 @@ interface TextAttributeProps {
   onClick: () => void;
   variant?: "default" | "small";
   clickable?: boolean;
+  testId?: string;
 }
 
 /**
  * TextAttribute component to display a text attribute with different styles based on props.
- * 
+ *
  * @param {TextAttributeProps} props - The props for the component.
  * @param {Attribute} props.attribute - The attribute object containing value and other properties.
  * @param {boolean} props.isSelected - Indicates if the attribute is selected.
@@ -33,6 +34,7 @@ const TextAttribute: React.FC<TextAttributeProps> = ({
   onClick,
   variant = "default",
   clickable = true,
+  testId,
 }) => {
   const baseClasses = " border-2 text-center";
   const variantClass = variantClasses[variant] || variantClasses.default;
@@ -45,6 +47,7 @@ const TextAttribute: React.FC<TextAttributeProps> = ({
         "cursor-default": !clickable,
       })}
       onClick={onClick}
+      data-testid={testId}
     >
       <span className="block">{attribute.value}</span>
     </li>

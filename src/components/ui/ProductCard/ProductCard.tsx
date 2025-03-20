@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Product, SelectedAttribute } from "@/types";
 import { CartIcon } from "@/assets/icons";
 import { useCart } from "@/hooks";
+import { kebabCase } from "@/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -37,7 +38,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <Link to={`/product/${product.id}`} className="block group">
+    <Link
+      to={`/product/${product.id}`}
+      className="block group"
+      data-testid={`product-${kebabCase(product.name)}`}
+    >
       <div className="p-2 hover:shadow-lg transition duration-300 ease-in-out hover:scale-105">
         <div className="relative h-[330px]">
           <img

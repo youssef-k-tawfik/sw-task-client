@@ -23,6 +23,7 @@ interface SwatchAttributeProps {
   onClick: () => void;
   variant?: "default" | "small";
   clickable?: boolean;
+  testId?: string;
 }
 
 /**
@@ -42,6 +43,7 @@ const SwatchAttribute: React.FC<SwatchAttributeProps> = ({
   onClick,
   variant = "default",
   clickable = true,
+  testId,
 }) => {
   const baseClasses = "p-0.5";
   const variantClass = variantClasses[variant] || variantClasses.default;
@@ -54,6 +56,7 @@ const SwatchAttribute: React.FC<SwatchAttributeProps> = ({
         "cursor-default": !clickable,
       })}
       onClick={onClick}
+      data-testid={testId}
     >
       <span
         className="block w-full h-full"

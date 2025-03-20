@@ -64,7 +64,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           {/* Price */}
           <div className="flex justify-between items-center">
             <p>Total</p>
-            <p>${getCartTotalCost}</p>
+            <p data-testid="cart-total">${getCartTotalCost}</p>
           </div>
           {/* Place order button */}
           <button

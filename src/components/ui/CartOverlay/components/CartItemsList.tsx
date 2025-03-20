@@ -29,11 +29,12 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
           {/* product details */}
           <div className="grow">
             <h3>{product.name}</h3>
-            <p>${product.prices[0].amount}</p>
+            <p data-testid="cart-item-amount">${product.prices[0].amount}</p>
             <ProductAttributes
               attributes={product.attributes}
               selectedAttributes={selectedAttributes}
               variant="small"
+              testIdPrefix="cart-item-attribute"
             />
           </div>
           {/* product quantity */}
@@ -43,6 +44,7 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
               onClick={() =>
                 updateQuantity(product.id, selectedAttributes, quantity + 1)
               }
+              data-testid="cart-item-amount-increase"
             >
               <PlusIcon />
             </button>
@@ -52,6 +54,7 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
               onClick={() =>
                 updateQuantity(product.id, selectedAttributes, quantity - 1)
               }
+              data-testid="cart-item-amount-decrease"
             >
               <MinusIcon />
             </button>

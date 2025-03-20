@@ -31,6 +31,9 @@ Roboto Condensed
   button {
     @apply transition-all duration-200 cursor-pointer border disabled:bg-gray-300! disabled:text-gray-500! disabled:border-gray-400! disabled:cursor-not-allowed disabled:opacity-50;
   }
+  img {
+    @apply select-none;
+  }
 }
 
 @layer utilities {
