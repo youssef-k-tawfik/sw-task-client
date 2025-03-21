@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { CartItem, SelectedAttribute } from "@/types";
 import { CartContextType } from "./CartContext.type";
 import { CartContext } from "./CartContext";
+import toast from "react-hot-toast";
 
 const CART_STORAGE_KEY = "cart_items";
 
@@ -105,6 +106,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({
           JSON.stringify(cartItem.selectedAttributes) ===
             JSON.stringify(item.selectedAttributes)
       );
+
+      // Show a success toast
+      toast.success(`${item.product.name} added to cart!`);
 
       // If item already exists, increase quantity by one
       if (itemIndex > -1) {

@@ -29,7 +29,7 @@ const ChevronIcon: React.FC<ChevronIconProps> = ({
     <svg
       onClick={onClick}
       className={classNames(
-        "absolute top-1/2 transform -translate-y-1/2 cursor-pointer  text-white bg-black/50",
+        "absolute top-1/2 transform -translate-y-1/2 cursor-pointer  text-white bg-black/50 hover:bg-black/70",
         positioningClass,
         rotationClass,
         size,

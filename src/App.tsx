@@ -14,6 +14,7 @@ const ProductDetails = lazy(() =>
 import Layout from "@/Layout";
 import { NotFound } from "@/components/ui";
 import { CartProvider } from "@/contexts/Cart";
+import { Toaster } from "react-hot-toast";
 
 // routes
 const routes = createBrowserRouter([
@@ -47,6 +48,7 @@ export default function App() {
     <>
       <CartProvider>
         <RouterProvider router={routes} />
+        <Toaster position="top-center" containerStyle={{ marginTop: "40px" }} />
       </CartProvider>
     </>
   );

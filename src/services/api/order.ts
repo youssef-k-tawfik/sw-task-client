@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import axiosInstance from "../axiosInstance";
 import { OrderItem } from "@/types";
 
@@ -35,6 +36,7 @@ const placeOrder = async (orderItems: OrderItem[]): Promise<string> => {
 
   if (response.data.errors) {
     console.error("Error placing order:", response.data.errors[0].message);
+    toast.error("Failed to place order. Please try again.");
     throw new Error(response.data.errors[0].message);
   }
 
@@ -47,6 +49,7 @@ const placeOrder = async (orderItems: OrderItem[]): Promise<string> => {
   orderNumbers.push(orderNumber);
   localStorage.setItem("order_numbers", JSON.stringify(orderNumbers));
 
+  toast.success("Order placed successfully!");
   return orderNumber;
 };
 
