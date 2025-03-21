@@ -13,7 +13,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
 
   return (
     <li
-      className={`${isActive ? Style.active : ""} p-4 uppercase`}
+      className={`${isActive ? Style.active : ""} p-4 uppercase font-semibold`}
       data-testid={isActive ? "active-category-link" : "category-link"}
     >
       <Link to={to}>{children}</Link>

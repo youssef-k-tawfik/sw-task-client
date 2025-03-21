@@ -3,6 +3,12 @@ import { AttributeSet, SelectedAttribute } from "@/types";
 import { SwatchAttribute, TextAttribute } from "./components";
 import { kebabCase } from "@/utils";
 
+const variantClasses: Record<string, string> = {
+  small: "text-sm",
+  default: "text-lg font-bold",
+  large: "text-xl font-bold",
+};
+
 interface ProductAttributesProps {
   attributes: AttributeSet[];
   selectedAttributes: SelectedAttribute[];
@@ -95,7 +101,9 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
             testIdPrefix && `${testIdPrefix}-${kebabCase(attrSet.name)}`
           }
         >
-          <h3 className="font-semibold mb-2">{attrSet.name}:</h3>
+          <h3 className={`${variantClasses[variant || "default"]} mb-2`}>
+            {attrSet.name}:
+          </h3>
           <ul className="flex space-x-2">{renderAttributeItems(attrSet)}</ul>
         </div>
       ))}

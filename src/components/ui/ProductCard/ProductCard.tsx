@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       data-testid={`product-${kebabCase(product.name)}`}
     >
       <div className="p-2 hover:shadow-lg transition duration-300 ease-in-out hover:scale-105">
-        <div className="relative h-[330px]">
+        <div className="relative h-[330px] mb-4">
           <img
             src={product.gallery[0]}
             className="w-full h-full object-contain"
@@ -63,13 +63,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </button>
             </div>
           ) : (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <p className="text-white text-2xl">Out of Stock</p>
+            // background opacity is 60 instead of 50 (as per figma) 
+            // to make the text more readable on the Xbox item
+            <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+              <p className="text-[#8D8F9A] text-2xl">Out of Stock</p>
             </div>
           )}
         </div>
-        <h3>{product.name}</h3>
-        <p>$ {product.prices[0].amount.toFixed(2)}</p>
+        <h3 className="font-light text-lg">{product.name}</h3>
+        <p className="text-lg">$ {product.prices[0].amount.toFixed(2)}</p>
       </div>
     </Link>
   );

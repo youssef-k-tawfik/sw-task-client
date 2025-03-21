@@ -4,7 +4,7 @@ import React from "react";
 
 const variantClasses: Record<string, string> = {
   small: "w-5 h-5",
-  default: "w-8 h-8",
+  default: "w-9 h-9",
   large: "w-12 h-12",
 };
 

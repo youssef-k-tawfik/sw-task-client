@@ -13,7 +13,7 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
   const { updateQuantity } = useCart();
 
   if (!items.length) {
-    return <p className="text-center my-4">Your cart is empty</p>;
+    return <p className="text-center my-4 font-medium">Your cart is empty</p>;
   }
 
   return (
@@ -28,8 +28,10 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
         >
           {/* product details */}
           <div className="grow">
-            <h3>{product.name}</h3>
-            <p data-testid="cart-item-amount">${product.prices[0].amount}</p>
+            <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+            <p className="mb-2" data-testid="cart-item-amount">
+              ${product.prices[0].amount}
+            </p>
             <ProductAttributes
               attributes={product.attributes}
               selectedAttributes={selectedAttributes}

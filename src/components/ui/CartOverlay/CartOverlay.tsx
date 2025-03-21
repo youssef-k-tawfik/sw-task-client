@@ -48,11 +48,12 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       <div className="absolute top-full right-0 w-[450px] shadow-lg bg-white z-10 ">
         <div className="p-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold">
-              My Bag, {getCartTotalQuantity} items
+            <h2 className="font-bold">
+              My Bag,{" "}
+              <span className="font-medium">{getCartTotalQuantity} items</span>
             </h2>
             <button
-              className="px-2 py-1 border font-semibold bg-red-500 text-white border-red-500 hover:bg-red-600"
+              className="px-2 py-1 border text-sm font-semibold bg-red-500 text-white border-red-500 hover:bg-red-600"
               onClick={clearCart}
               disabled={getCartTotalQuantity === 0}
             >
@@ -63,12 +64,14 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           <CartItemsList items={cartItems} />
           {/* Price */}
           <div className="flex justify-between items-center">
-            <p>Total</p>
-            <p data-testid="cart-total">${getCartTotalCost}</p>
+            <p className="font-roboto font-medium">Total</p>
+            <p className="font-bold" data-testid="cart-total">
+              ${getCartTotalCost}
+            </p>
           </div>
           {/* Place order button */}
           <button
-            className="w-full py-2 bg-primary text-white uppercase"
+            className="w-full py-2 bg-primary text-white uppercase text-sm font-semibold"
             onClick={handlePlaceOrder}
             disabled={getCartTotalQuantity === 0}
           >
@@ -84,7 +87,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       </div>
       {/* Backdrop */}
       <div
-        className="fixed top-14 start-0 w-full h-full bg-black/50"
+        className="fixed top-14 start-0 w-full h-full bg-[#39374838]/80"
         onClick={onClose}
       />
     </>

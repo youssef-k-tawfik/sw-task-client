@@ -55,7 +55,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   return (
     <div className="lg:w-1/3">
       {/* product title */}
-      <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
+      <h1 className="text-3xl font-semibold mb-4">{product.name}</h1>
       {/* Attributes */}
       <ProductAttributes
         attributes={product.attributes}
@@ -64,20 +64,20 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         testIdPrefix="product-attribute"
       />
       {/* Price */}
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Price:</h2>
-        <p className="text-lg">${product.prices[0].amount.toFixed(2)}</p>
+      <div className="mb-4 font-bold">
+        <h2 className="text-lg">Price:</h2>
+        <p className="text-2xl">${product.prices[0].amount.toFixed(2)}</p>
       </div>
       <button
         disabled={!product.inStock}
         onClick={handleAddToCart}
-        className="uppercase bg-primary hover:bg-green-500 text-white py-2 px-4 w-full"
+        className="uppercase bg-primary hover:bg-green-500 text-white font-semibold py-2 px-4 w-full"
         data-testid="add-to-cart"
       >
         Add to cart
       </button>
       {/* Description */}
-      <div className="mt-6" data-testid="product-description">
+      <div className="mt-6 font-roboto" data-testid="product-description">
         {HTMLReactParser(String(product.description))}
       </div>
     </div>

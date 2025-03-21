@@ -36,13 +36,13 @@ const TextAttribute: React.FC<TextAttributeProps> = ({
   clickable = true,
   testId,
 }) => {
-  const baseClasses = " border-2 text-center";
+  const baseClasses = "border-2 text-center font-source-sans";
   const variantClass = variantClasses[variant] || variantClasses.default;
 
   return (
     <li
       className={classNames(baseClasses, variantClass, {
-        "border-primary": isSelected,
+        "text-white bg-black border-black": isSelected,
         "cursor-pointer": clickable,
         "cursor-default": !clickable,
       })}
