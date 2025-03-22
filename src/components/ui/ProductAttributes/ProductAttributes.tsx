@@ -63,9 +63,7 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
 
       // testid attribute if testIdPrefix is provided
       const testId = testIdPrefix
-        ? `${testIdPrefix}-${kebabCase(attrSet.name)}-${kebabCase(
-            attribute.value
-          )}`
+        ? `${testIdPrefix}-${kebabCase(attrSet.name)}-${attribute.value}`
         : "";
 
       return attrSet.type === "swatch" ? (

@@ -1,6 +1,6 @@
 // libraries
 import { lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 // pages
 const Category = lazy(() =>
@@ -28,6 +28,10 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Category category="all" />,
+      },
+      {
+        path: "/all",
+        element: <Navigate to="/" />,
       },
       {
         path: "/clothes",

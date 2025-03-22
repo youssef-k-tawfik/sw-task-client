@@ -13,4 +13,6 @@ export const CartContext: React.Context<CartContextType> =
     clearCart: () => {},
     getCartTotalCost: 0,
     getCartTotalQuantity: 0,
+    isCartOpen: false,
+    setIsCartOpen: () => {},
   });

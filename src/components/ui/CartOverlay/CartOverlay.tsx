@@ -45,7 +45,10 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
 
   return (
     <>
-      <div className="absolute top-full right-0 w-[450px] shadow-lg bg-white z-10 ">
+      <div
+        className="absolute top-full right-0 w-[450px] shadow-lg bg-white z-10 "
+        data-testid="cart-overlay"
+      >
         <div className="p-4">
           <div className="flex justify-between items-center">
             <h2 className="font-bold">

@@ -1,4 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  // useEffect,
+  useState,
+} from "react";
 import HTMLReactParser from "html-react-parser";
 
 import { Product, SelectedAttribute } from "@/types";
@@ -16,18 +20,18 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   >([]);
 
   // Set initial selected attributes
-  useEffect(() => {
-    if (product.attributes.length) {
-      const initialAttributes = product.attributes.reduce<SelectedAttribute[]>(
-        (acc, attrSet) => [
-          ...acc,
-          { id: attrSet.id, value: attrSet.items[0].value },
-        ],
-        []
-      );
-      setSelectedAttributes(initialAttributes);
-    }
-  }, [product.attributes]);
+  // useEffect(() => {
+  //   if (product.attributes.length) {
+  //     const initialAttributes = product.attributes.reduce<SelectedAttribute[]>(
+  //       (acc, attrSet) => [
+  //         ...acc,
+  //         { id: attrSet.id, value: attrSet.items[0].value },
+  //       ],
+  //       []
+  //     );
+  //     setSelectedAttributes(initialAttributes);
+  //   }
+  // }, [product.attributes]);
 
   const handleAttributeChange = useCallback(
     (attributeSetId: string, value: string) => {
@@ -69,7 +73,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         <p className="text-2xl">${product.prices[0].amount.toFixed(2)}</p>
       </div>
       <button
-        disabled={!product.inStock}
+        disabled={
+          !product.inStock ||
+          selectedAttributes.length < product.attributes.length
+        }
         onClick={handleAddToCart}
         className="uppercase bg-primary hover:bg-green-500 text-white font-semibold py-2 px-4 w-full"
         data-testid="add-to-cart"

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CartIcon } from "@/assets/icons";
 import NavLink from "./components/NavLink";
 import { CartOverlay } from "../CartOverlay";
@@ -11,8 +10,7 @@ import { useCart } from "@/hooks";
  * @returns {JSX.Element} - Rendered NavBar component
  */
 const NavBar: React.FC = (): JSX.Element => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const { getCartTotalQuantity } = useCart();
+  const { getCartTotalQuantity, isCartOpen, setIsCartOpen } = useCart();
 
   const toggleCartOverlay = () => {
     setIsCartOpen(!isCartOpen);
@@ -22,7 +20,7 @@ const NavBar: React.FC = (): JSX.Element => {
     <div className="container flex justify-between items-center fixed left-0 right-0 z-20 bg-white">
       <nav>
         <ul className="flex">
-          <NavLink to="/">All</NavLink>
+          <NavLink to="/all">All</NavLink>
           <NavLink to="/clothes">Clothes</NavLink>
           <NavLink to="/tech">Tech</NavLink>
           {/* <NavLink to="/my_orders">My Orders</NavLink> */}

@@ -63,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </button>
             </div>
           ) : (
-            // background opacity is 60 instead of 50 (as per figma) 
+            // background opacity is 60 instead of 50 (as per figma)
             // to make the text more readable on the Xbox item
             <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
               <p className="text-[#8D8F9A] text-2xl">Out of Stock</p>

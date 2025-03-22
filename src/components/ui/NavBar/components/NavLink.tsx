@@ -10,17 +10,26 @@ interface NavLinkProps {
 
 const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
   const location = useLocation();
-  const isActive = location.pathname === to;
+
+  const isActive = (path: string, currentPath: string): boolean => {
+    return currentPath === path || (currentPath === "/" && path === "/all");
+  };
+
+  const active = isActive(to, location.pathname);
 
   return (
     <li
       className={classNames({
-        [Style.active]: isActive,
+        [Style.active]: active,
         "p-4 uppercase font-semibold text-nowrap": true,
       })}
-      data-testid={isActive ? "active-category-link" : "category-link"}
     >
-      <Link to={to}>{children}</Link>
+      <Link
+        to={to}
+        data-testid={active ? "active-category-link" : "category-link"}
+      >
+        {children}
+      </Link>
     </li>
   );
 };

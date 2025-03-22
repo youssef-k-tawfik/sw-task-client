@@ -19,6 +19,7 @@ interface CartProviderProps {
 export const CartProvider: React.FC<CartProviderProps> = ({
   children,
 }: CartProviderProps): JSX.Element => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem(CART_STORAGE_KEY);
     return savedCart ? JSON.parse(savedCart) : [];
@@ -120,6 +121,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
       // else Add new item to cart.
       return [...prevItems, item];
     });
+    setIsCartOpen(true);
   }, []);
 
   /**
@@ -159,6 +161,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     clearCart,
     getCartTotalCost,
     getCartTotalQuantity,
+    isCartOpen,
+    setIsCartOpen,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
