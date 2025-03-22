@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Style from "../NavBar.module.css";
+import classNames from "classnames";
 
 interface NavLinkProps {
   to: string;
@@ -13,7 +14,10 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
 
   return (
     <li
-      className={`${isActive ? Style.active : ""} p-4 uppercase font-semibold`}
+      className={classNames({
+        [Style.active]: isActive,
+        "p-4 uppercase font-semibold text-nowrap": true,
+      })}
       data-testid={isActive ? "active-category-link" : "category-link"}
     >
       <Link to={to}>{children}</Link>

@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import axiosInstance from "../axiosInstance";
+import axiosInstance from "../../axiosInstance";
 import { OrderItem } from "@/types";
 
 interface PlaceOrderResponse {

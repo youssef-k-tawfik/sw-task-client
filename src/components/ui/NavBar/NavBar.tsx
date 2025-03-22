@@ -25,10 +25,11 @@ const NavBar: React.FC = (): JSX.Element => {
           <NavLink to="/">All</NavLink>
           <NavLink to="/clothes">Clothes</NavLink>
           <NavLink to="/tech">Tech</NavLink>
+          {/* <NavLink to="/my_orders">My Orders</NavLink> */}
         </ul>
       </nav>
       <div>
-        <img src="/logo.svg" alt="Logo" className="h-10" />
+        <img src="/logo.svg" alt="Logo" className="min-h-10 min-w-10" />
       </div>
       <button
         onClick={toggleCartOverlay}
