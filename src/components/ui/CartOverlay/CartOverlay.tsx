@@ -16,7 +16,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
   const handlePlaceOrder = async () => {
-    console.log("Placing order clicked!");
+    // console.log("Placing order clicked!");
 
     setLoading(true);
     try {
@@ -26,7 +26,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
         quantity: item.quantity,
         selectedAttributes: item.selectedAttributes,
       }));
-      console.log("Order items:", orderItems);
+      // console.log("Order items:", orderItems);
 
       const result = await placeOrder(orderItems);
       console.log("Order placed successfully:", result);

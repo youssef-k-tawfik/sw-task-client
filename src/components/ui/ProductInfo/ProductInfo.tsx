@@ -43,7 +43,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   );
 
   const handleAddToCart = () => {
-    console.log("Adding to cart with attributes:", selectedAttributes);
+    // console.log("Adding to cart with attributes:", selectedAttributes);
     addToCart({
       product,
       quantity: 1,

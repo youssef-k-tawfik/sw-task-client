@@ -26,7 +26,7 @@ const ProductDetailPage: React.FC = (): JSX.Element => {
     const loadProduct = async () => {
       try {
         const products = await fetchProducts({ id }, abortController.signal);
-        if (products && products.length > 0) {
+        if (products && products?.length > 0) {
           setProduct(products[0]);
         }
       } catch (err: unknown) {
