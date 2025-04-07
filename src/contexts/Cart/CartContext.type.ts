@@ -1,11 +1,11 @@
-import { CartItem, SelectedAttribute } from "@/types";
+import { OrderProduct, SelectedAttribute } from "@/types";
 
 /**
  * Defines the structure and operations of the cart context.
  */
 export interface CartContextType {
-  cartItems: CartItem[];
-  addToCart: (item: CartItem) => void;
+  orderProducts: OrderProduct[];
+  addToCart: (item: OrderProduct) => void;
   removeFromCart: (
     productId: string,
     selectedAttributes: SelectedAttribute[]
@@ -18,6 +18,6 @@ export interface CartContextType {
   clearCart: () => void;
   getCartTotalCost: number;
   getCartTotalQuantity: number;
-  isCartOpen:boolean;
+  isCartOpen: boolean;
   setIsCartOpen: (isOpen: boolean) => void;
 }

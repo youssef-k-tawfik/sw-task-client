@@ -7,7 +7,7 @@ const Footer: React.FC = (): JSX.Element => {
   return (
     <footer className="bg-gray-500/20 font-roboto">
       <p className="text-center">
-        &copy; {new Date().getFullYear()} Zeke Store . All Rights Reserved.
+        &copy;{new Date().getFullYear()} Zeke Store. All Rights Reserved.
       </p>
     </footer>
   );

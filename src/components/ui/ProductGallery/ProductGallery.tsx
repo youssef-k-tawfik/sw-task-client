@@ -25,9 +25,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
             key={`img-${index}`}
             src={img}
             alt={`product image-${index + 1}`}
-            className={`object-contain w-full h-40 cursor-pointer rounded-lg p-1 ${
-              selectedImage === img ? "border-2 border-primary" : ""
-            }`}
+            className="object-contain w-full h-40 cursor-pointer rounded-lg p-1"
             onClick={() => setSelectedImage(img)}
           />
         ))}

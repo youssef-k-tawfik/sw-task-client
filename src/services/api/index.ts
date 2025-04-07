@@ -1,2 +1,2 @@
 export { fetchProducts } from "./fetchProducts";
-export { placeOrder, fetchDates } from "./Order";
+export { placeOrder } from "./Order";

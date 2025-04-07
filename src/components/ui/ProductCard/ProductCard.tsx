@@ -25,7 +25,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const selectedAttributes = product.attributes.reduce<SelectedAttribute[]>(
       (acc, attrSet) => [
         ...acc,
-        { id: attrSet.id, value: attrSet.items[0].value },
+        { attributeSetId: attrSet.id, attributeId: attrSet.items[0].id },
       ],
       []
     );

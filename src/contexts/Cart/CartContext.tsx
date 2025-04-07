@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { CartItem, SelectedAttribute } from "@/types";
+import { OrderProduct, SelectedAttribute } from "@/types";
 import { CartContextType } from "./CartContext.type";
 import { CartContext } from "./CartContext";
 import toast from "react-hot-toast";
@@ -20,15 +20,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({
   children,
 }: CartProviderProps): JSX.Element => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+  const [orderProducts, setOrderProducts] = useState<OrderProduct[]>(() => {
     const savedCart = localStorage.getItem(CART_STORAGE_KEY);
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   // Sync cart with localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-  }, [cartItems]);
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(orderProducts));
+  }, [orderProducts]);
 
   /**
    * Removes an item from the cart
@@ -37,7 +37,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    */
   const removeFromCart = useCallback(
     (productId: string, selectedAttributes: SelectedAttribute[]) => {
-      setCartItems((prevItems) =>
+      setOrderProducts((prevItems) =>
         prevItems.filter(
           (item) =>
             !(
@@ -69,7 +69,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
         return;
       }
 
-      setCartItems((prevItems) => {
+      setOrderProducts((prevItems) => {
         // Find the item in the cart
         const itemIndex = prevItems.findIndex(
           (item) =>
@@ -96,20 +96,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({
   /**
    * Adds an item to the cart or increases its quantity by one if it already exists.
    *
-   * @param {CartItem} item - The cart item to add.
+   * @param {OrderProduct} item - The cart item to add.
    */
-  const addToCart = useCallback((item: CartItem) => {
-    setCartItems((prevItems) => {
+  const addToCart = useCallback((item: OrderProduct) => {
+    setOrderProducts((prevItems) => {
       // Check if item already exists in the cart
       const itemIndex = prevItems.findIndex(
-        (cartItem) =>
-          cartItem.product.id === item.product.id &&
-          JSON.stringify(cartItem.selectedAttributes) ===
+        (orderProduct) =>
+          orderProduct.product.id === item.product.id &&
+          JSON.stringify(orderProduct.selectedAttributes) ===
             JSON.stringify(item.selectedAttributes)
       );
-
-      // Show a success toast
-      toast.success(`${item.product.name} added to cart!`);
 
       // If item already exists, increase quantity by one
       if (itemIndex > -1) {
@@ -121,6 +118,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({
       // else Add new item to cart.
       return [...prevItems, item];
     });
+    // Show a success toast
+    toast.success(`${item.product.name} added to cart!`);
     setIsCartOpen(true);
   }, []);
 
@@ -128,7 +127,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    * Clears all items from the cart.
    */
   const clearCart = useCallback(() => {
-    setCartItems([]);
+    setOrderProducts([]);
   }, []);
 
   /**
@@ -137,12 +136,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    * @returns {number} The total cost.
    */
   const getCartTotalCost = useMemo((): number => {
-    const totalCost = cartItems.reduce((total, item) => {
+    const totalCost = orderProducts.reduce((total, item) => {
       const price = item.product.prices[0]?.amount || 0;
       return total + price * item.quantity;
     }, 0);
     return Number(totalCost.toFixed(2));
-  }, [cartItems]);
+  }, [orderProducts]);
 
   /**
    * Calculates the total quantity of all items in the cart.
@@ -150,11 +149,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    * @returns {number} The total quantity.
    */
   const getCartTotalQuantity = useMemo(() => {
-    return cartItems.reduce((total, { quantity }) => total + quantity, 0);
-  }, [cartItems]);
+    return orderProducts.reduce((total, { quantity }) => total + quantity, 0);
+  }, [orderProducts]);
 
   const value: CartContextType = {
-    cartItems,
+    orderProducts,
     addToCart,
     removeFromCart,
     updateQuantity,

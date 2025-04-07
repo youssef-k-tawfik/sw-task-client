@@ -12,7 +12,7 @@ const variantClasses: Record<string, string> = {
 interface ProductAttributesProps {
   attributes: AttributeSet[];
   selectedAttributes: SelectedAttribute[];
-  onAttributeChange?: (attributeSetId: string, value: string) => void;
+  onAttributeChange?: (attributeSetId: string, attributeId: string) => void;
   variant?: "default" | "small";
   testIdPrefix?: string;
 }
@@ -24,7 +24,7 @@ interface ProductAttributesProps {
  * @param {ProductAttributesProps} props - The properties for the component.
  * @param {AttributeSet[]} props.attributes - The list of attribute sets.
  * @param {AttributeSelection} props.selectedAttributes - The currently selected attributes.
- * @param {(attributeSetName: string, value: string) => void} [props.onAttributeChange] - Optional callback function to handle attribute changes.
+ * @param {(attributeSetId: string, attributeId: string) => void} [props.onAttributeChange] - Optional callback function to handle attribute changes.
  * @param {string} [props.textStyle] - Optional CSS classes for text attributes.
  * @param {string} [props.swatchStyle] - Optional CSS classes for swatch attributes.
  * @returns {JSX.Element} The rendered product attributes component.
@@ -48,13 +48,13 @@ const ProductAttributes: React.FC<ProductAttributesProps> = ({
   const renderAttributeItems = (attrSet: AttributeSet): JSX.Element[] =>
     attrSet.items.map((attribute) => {
       const selectedAttribute = selectedAttributes?.find(
-        (selected) => selected.id === attrSet.id
+        (selected) => selected.attributeSetId === attrSet.id
       );
-      const isSelected = attribute.value === selectedAttribute?.value;
+      const isSelected = attribute.id === selectedAttribute?.attributeId;
 
       const onClick = () => {
         if (onAttributeChange) {
-          onAttributeChange(attrSet.id, attribute.value);
+          onAttributeChange(attrSet.id, attribute.id);
         }
       };
 

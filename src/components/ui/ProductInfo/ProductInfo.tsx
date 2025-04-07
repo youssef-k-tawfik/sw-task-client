@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  // useEffect,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import HTMLReactParser from "html-react-parser";
 
 import { Product, SelectedAttribute } from "@/types";
@@ -19,35 +15,29 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
     SelectedAttribute[]
   >([]);
 
-  // Set initial selected attributes
-  // useEffect(() => {
-  //   if (product.attributes.length) {
-  //     const initialAttributes = product.attributes.reduce<SelectedAttribute[]>(
-  //       (acc, attrSet) => [
-  //         ...acc,
-  //         { id: attrSet.id, value: attrSet.items[0].value },
-  //       ],
-  //       []
-  //     );
-  //     setSelectedAttributes(initialAttributes);
-  //   }
-  // }, [product.attributes]);
-
   const handleAttributeChange = useCallback(
-    (attributeSetId: string, value: string) => {
-      setSelectedAttributes((prev) =>
-        prev.some((attr) => attr.id === attributeSetId)
-          ? prev.map((attr) =>
-              attr.id === attributeSetId ? { id: attributeSetId, value } : attr
-            )
-          : [...prev, { id: attributeSetId, value }]
-      );
+    (attributeSetId: string, attributeId: string): void => {
+      setSelectedAttributes((prev) => {
+        const updatedAttributes = [...prev];
+        const index = updatedAttributes.findIndex(
+          (attr) => attr.attributeSetId === attributeSetId
+        );
+
+        if (index !== -1) {
+          // Update existing attribute
+          updatedAttributes[index] = { attributeSetId, attributeId };
+        } else {
+          // Add new attribute
+          updatedAttributes.push({ attributeSetId, attributeId });
+        }
+
+        return updatedAttributes;
+      });
     },
     []
   );
 
   const handleAddToCart = () => {
-    // console.log("Adding to cart with attributes:", selectedAttributes);
     addToCart({
       product,
       quantity: 1,
@@ -84,7 +74,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         Add to cart
       </button>
       {/* Description */}
-      <div className="mt-6 font-roboto" data-testid="product-description">
+      <div className="mt-6 font-roboto prose" data-testid="product-description">
         {HTMLReactParser(String(product.description))}
       </div>
     </div>

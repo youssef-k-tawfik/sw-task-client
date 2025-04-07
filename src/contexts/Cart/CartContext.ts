@@ -6,7 +6,7 @@ import { CartContextType } from "./CartContext.type";
  */
 export const CartContext: React.Context<CartContextType> =
   createContext<CartContextType>({
-    cartItems: [],
+    orderProducts: [],
     addToCart: () => {},
     removeFromCart: () => {},
     updateQuantity: () => {},

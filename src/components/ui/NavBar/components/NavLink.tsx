@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Style from "../NavBar.module.css";
 import classNames from "classnames";
+import { useCart } from "@/hooks";
 
 interface NavLinkProps {
   to: string;
@@ -9,6 +10,7 @@ interface NavLinkProps {
 }
 
 const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
+  const { setIsCartOpen } = useCart();
   const location = useLocation();
 
   const isActive = (path: string, currentPath: string): boolean => {
@@ -21,12 +23,15 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }): JSX.Element => {
     <li
       className={classNames({
         [Style.active]: active,
-        "p-4 uppercase font-semibold text-nowrap": true,
+        "p-4 uppercase font-semibold text-nowrap select-none": true,
       })}
     >
       <Link
         to={to}
         data-testid={active ? "active-category-link" : "category-link"}
+        onClick={() => {
+          setIsCartOpen(false);
+        }}
       >
         {children}
       </Link>

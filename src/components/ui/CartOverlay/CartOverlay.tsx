@@ -1,38 +1,34 @@
 import React, { useState } from "react";
 import { useCart } from "@/hooks";
-import CartItemsList from "./components/CartItemsList";
+import OrderProductsList from "./components/OrderProductsList";
 import { placeOrder } from "@/services/api";
 import { Loading } from "@/components/ui";
-import { OrderItem } from "@/types";
+import { CartItem } from "@/types";
 
 interface CartOverlayProps {
   onClose: () => void;
 }
 
 const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
-  const { cartItems, getCartTotalCost, getCartTotalQuantity, clearCart } =
+  const { orderProducts, getCartTotalCost, getCartTotalQuantity, clearCart } =
     useCart();
   const [loading, setLoading] = useState(false);
-  const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
   const handlePlaceOrder = async () => {
-    // console.log("Placing order clicked!");
+    console.log("Placing order clicked!");
 
     setLoading(true);
     try {
       // Mapping cart items to the order item input format required by the backend.
-      const orderItems: OrderItem[] = cartItems.map((item) => ({
+      const cartItems: CartItem[] = orderProducts.map((item) => ({
         productId: item.product.id,
         quantity: item.quantity,
         selectedAttributes: item.selectedAttributes,
       }));
-      // console.log("Order items:", orderItems);
 
-      const result = await placeOrder(orderItems);
+      // TODO: GET currency label from context or local storage
+      const result = await placeOrder(cartItems, "USD");
       console.log("Order placed successfully:", result);
-
-      setOrderNumber(result);
-      console.log("Order number:", orderNumber);
 
       clearCart();
     } catch (error) {
@@ -53,7 +49,10 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           <div className="flex justify-between items-center">
             <h2 className="font-bold">
               My Bag,{" "}
-              <span className="font-medium">{getCartTotalQuantity} items</span>
+              <span className="font-medium">
+                {getCartTotalQuantity}{" "}
+                {getCartTotalQuantity === 1 ? "item" : "items"}
+              </span>
             </h2>
             <button
               className="px-2 py-1 border text-sm font-semibold bg-red-500 text-white border-red-500 hover:bg-red-600"
@@ -64,7 +63,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
             </button>
           </div>
           {/* cart items */}
-          <CartItemsList items={cartItems} />
+          <OrderProductsList items={orderProducts} />
           {/* Price */}
           <div className="flex justify-between items-center">
             <p className="font-roboto font-medium">Total</p>

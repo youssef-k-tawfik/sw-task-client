@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import axiosInstance from "../../axiosInstance";
-import { OrderItem } from "@/types";
+import { CartItem } from "@/types";
 
 interface PlaceOrderResponse {
   data: {
@@ -20,18 +20,21 @@ interface PlaceOrderResponse {
  * @returns {Promise<string>} - A promise that resolves to the order number.
  * @throws {Error} - Throws an error if the order placement fails.
  */
-const placeOrder = async (orderItems: OrderItem[]): Promise<string> => {
+const placeOrder = async (
+  cartItems: CartItem[],
+  currencyLabel: string
+): Promise<string> => {
   const mutation = `
-    mutation PlaceOrder($orderItems: [OrderItemInput!]!) {
-      placeOrder(orderItems: $orderItems) {
-        order_number
-      }
+    mutation PlaceOrder($cartItems: [CartItemInput!]!, $currencyLabel: String!) { 
+      placeOrder(cartItems: $cartItems, currencyLabel: $currencyLabel) { 
+        order_number 
+      } 
     }
   `;
 
   const response: PlaceOrderResponse = await axiosInstance.post("", {
     query: mutation,
-    variables: { orderItems },
+    variables: { cartItems, currencyLabel },
   });
 
   if (response.data.errors) {

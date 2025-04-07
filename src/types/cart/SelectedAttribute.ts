@@ -1,4 +1,4 @@
 export interface SelectedAttribute {
-  id: string;
-  value: string;
+  attributeSetId: string;
+  attributeId: string;
 }

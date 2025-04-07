@@ -1,7 +1,7 @@
-import { Product, SelectedAttribute } from "@/types";
+import { SelectedAttribute } from "./SelectedAttribute";
 
 export interface CartItem {
-  product: Product;
+  productId: string;
   quantity: number;
   selectedAttributes: SelectedAttribute[];
 }

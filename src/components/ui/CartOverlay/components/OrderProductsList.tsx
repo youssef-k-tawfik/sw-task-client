@@ -1,15 +1,15 @@
-import type { CartItem } from "@/types";
+import type { OrderProduct } from "@/types";
 import { PlusIcon, MinusIcon } from "@/assets/icons";
 import { ProductAttributes } from "@/components/ui";
 import { useCart } from "@/hooks";
 
-interface CartItemsListProps {
-  items: CartItem[];
+interface OrderProductsListProps {
+  items: OrderProduct[];
 }
 
-const CartItemsList: React.FC<CartItemsListProps> = ({
+const OrderProductsList: React.FC<OrderProductsListProps> = ({
   items,
-}: CartItemsListProps): JSX.Element => {
+}: OrderProductsListProps): JSX.Element => {
   const { updateQuantity } = useCart();
 
   if (!items.length) {
@@ -75,4 +75,4 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
   );
 };
 
-export default CartItemsList;
+export default OrderProductsList;

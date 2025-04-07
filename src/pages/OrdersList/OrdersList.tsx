@@ -1,12 +1,9 @@
-import { ErrorMessage } from "@/components/ui";
-import { fetchDates } from "@/services/api";
+// import { ErrorMessage } from "@/components/ui";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const OrdersList: React.FC = () => {
   const [orders, setOrders] = useState<string[]>([]);
-  const [dates, setDates] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const orders = JSON.parse(localStorage.getItem("order_numbers") || "[]");
@@ -25,37 +22,6 @@ const OrdersList: React.FC = () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const loadDates = async () => {
-      try {
-        const dates = await fetchDates(orders, abortController.signal);
-
-        setDates(dates);
-      } catch (err: unknown) {
-        if (
-          err instanceof Error &&
-          err.name !== "CanceledError" &&
-          err.name !== "AbortError"
-        ) {
-          console.error(err.message);
-          setError(`Failed to fetch Dates. Please try again later.`);
-        }
-      }
-    };
-
-    loadDates();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [orders]);
-
-  if (error) {
-    return <ErrorMessage error={error} />;
-  }
 
   if (orders.length === 0) {
     return (
@@ -85,9 +51,7 @@ const OrdersList: React.FC = () => {
             {orders.map((orderNumber: string, index: number) => (
               <tr key={index + orderNumber} className="odd:bg-gray-200">
                 <td className="py-2 px-4 text-center">{orderNumber}</td>
-                <td className="py-2 px-4 text-center">
-                  {dates[index] || "ORDER DATE"}
-                </td>
+                <td className="py-2 px-4 text-center">{"ORDER DATE"}</td>
                 <td className="py-2 px-4 text-center">
                   <button
                     className="uppercase border-primary bg-primary text-white py-1 px-3 hover:bg-green-500"
