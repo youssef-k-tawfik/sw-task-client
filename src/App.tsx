@@ -9,9 +9,6 @@ const Category = lazy(() =>
 const ProductDetails = lazy(() =>
   import("@/pages").then((module) => ({ default: module.ProductDetailPage }))
 );
-// const OrdersList = lazy(() =>
-//   import("@/pages").then((module) => ({ default: module.OrdersList }))
-// );
 
 // components
 import Layout from "@/Layout";
@@ -45,7 +42,6 @@ const routes = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetails />,
       },
-      // { path: "/my_orders", element: <OrdersList /> },
       { path: "*", element: <NotFound /> },
     ],
   },

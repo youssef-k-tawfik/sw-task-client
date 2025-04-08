@@ -15,4 +15,8 @@ export const CartContext: React.Context<CartContextType> =
     getCartTotalQuantity: 0,
     isCartOpen: false,
     setIsCartOpen: () => {},
+    currency: {
+      label: "",
+      symbol: "",
+    },
   });

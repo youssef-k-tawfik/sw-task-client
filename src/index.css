@@ -27,9 +27,10 @@ Roboto Condensed
   body {
     font-family: var(--font-raleway);
     color: var(--color-primary-font-color);
+    scrollbar-color: #5ece7b #fff;
   }
   button {
-    @apply transition-all duration-200 cursor-pointer border disabled:bg-gray-300! disabled:text-gray-500! disabled:border-gray-400! disabled:cursor-not-allowed disabled:opacity-50;
+    @apply select-none transition-all duration-200 cursor-pointer border disabled:bg-gray-300! disabled:text-gray-500! disabled:border-gray-400! disabled:cursor-not-allowed disabled:opacity-50;
   }
   img {
     @apply select-none;

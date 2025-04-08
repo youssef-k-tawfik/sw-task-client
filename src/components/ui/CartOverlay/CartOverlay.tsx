@@ -10,8 +10,13 @@ interface CartOverlayProps {
 }
 
 const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
-  const { orderProducts, getCartTotalCost, getCartTotalQuantity, clearCart } =
-    useCart();
+  const {
+    orderProducts,
+    getCartTotalCost,
+    getCartTotalQuantity,
+    clearCart,
+    currency,
+  } = useCart();
   const [loading, setLoading] = useState(false);
 
   const handlePlaceOrder = async () => {
@@ -26,8 +31,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
         selectedAttributes: item.selectedAttributes,
       }));
 
-      // TODO: GET currency label from context or local storage
-      const result = await placeOrder(cartItems, "USD");
+      const result = await placeOrder(cartItems, currency.label);
       console.log("Order placed successfully:", result);
 
       clearCart();
@@ -68,7 +72,8 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           <div className="flex justify-between items-center">
             <p className="font-roboto font-medium">Total</p>
             <p className="font-bold" data-testid="cart-total">
-              ${getCartTotalCost}
+              {currency.symbol}
+              {getCartTotalCost}
             </p>
           </div>
           {/* Place order button */}

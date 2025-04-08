@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Product, SelectedAttribute } from "@/types";
 import { CartIcon } from "@/assets/icons";
 import { useCart } from "@/hooks";
-import { kebabCase } from "@/utils";
+import { getPriceAmount, kebabCase } from "@/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -19,7 +19,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps): JSX.Element => {
-  const { addToCart } = useCart();
+  const { addToCart,currency } = useCart();
 
   const handleAddToCart = () => {
     const selectedAttributes = product.attributes.reduce<SelectedAttribute[]>(
@@ -71,7 +71,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           )}
         </div>
         <h3 className="font-light text-lg">{product.name}</h3>
-        <p className="text-lg">$ {product.prices[0].amount.toFixed(2)}</p>
+        <p className="text-lg">
+          {currency.symbol}
+          {getPriceAmount(product.prices, currency.label)}
+        </p>
       </div>
     </Link>
   );

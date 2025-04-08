@@ -16,7 +16,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
 
   return (
     <div
-      className="w-full lg:w-2/3 pe-14 flex gap-2 justify-around h-[575px]"
+      className="w-full lg:w-2/3 pe-14 flex gap-2 justify-around"
       data-testid="product-gallery"
     >
       <div className="overflow-auto w-1/3 space-y-5">
@@ -31,7 +31,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
         ))}
       </div>
       {/* Main image */}
-      <div className="w-2/3 relative">
+      <div className="w-2/3 relative self-start h-[575px]">
         <img
           src={selectedImage}
           alt="product image"

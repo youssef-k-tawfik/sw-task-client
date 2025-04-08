@@ -4,13 +4,14 @@ import HTMLReactParser from "html-react-parser";
 import { Product, SelectedAttribute } from "@/types";
 import { useCart } from "@/hooks";
 import { ProductAttributes } from "@/components/ui";
+import { getPriceAmount } from "@/utils";
 
 interface ProductInfoProps {
   product: Product;
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, currency } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState<
     SelectedAttribute[]
   >([]);
@@ -60,7 +61,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
       {/* Price */}
       <div className="mb-4 font-bold">
         <h2 className="text-lg">Price:</h2>
-        <p className="text-2xl">${product.prices[0].amount.toFixed(2)}</p>
+        <p className="text-2xl">
+          {currency.symbol}
+          {getPriceAmount(product.prices, currency.label)}
+        </p>
       </div>
       <button
         disabled={
@@ -70,6 +74,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         onClick={handleAddToCart}
         className="uppercase bg-primary hover:bg-green-500 text-white font-semibold py-2 px-4 w-full"
         data-testid="add-to-cart"
+        title={
+          product.inStock &&
+          selectedAttributes.length < product.attributes.length
+            ? "Please select all attributes before adding to cart"
+            : undefined
+        }
       >
         Add to cart
       </button>

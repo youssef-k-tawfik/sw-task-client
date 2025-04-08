@@ -1,10 +1,29 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { OrderProduct, SelectedAttribute } from "@/types";
+import { Currency, OrderProduct, SelectedAttribute } from "@/types";
 import { CartContextType } from "./CartContext.type";
 import { CartContext } from "./CartContext";
 import toast from "react-hot-toast";
+import { getPriceAmount } from "@/utils";
 
 const CART_STORAGE_KEY = "cart_items";
+const DEFAULT_CURRENCY: Currency = { label: "USD", symbol: "$" };
+
+const countryToCurrencyMap: Record<string, Currency> = {
+  US: {
+    label: "USD",
+    symbol: "$",
+  },
+  // EU: {
+  //   label: "EUR",
+  //   symbol: "€",
+  // },
+  // EG: {
+  //   label: "EGP",
+  //   symbol: "ج.م",
+  // },
+  // Add more mappings as needed
+  // (sticking to USD for now since BE only supports USD)
+};
 
 interface CartProviderProps {
   children: React.ReactNode;
@@ -24,6 +43,26 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     const savedCart = localStorage.getItem(CART_STORAGE_KEY);
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [currency, setCurrency] = useState<Currency>(DEFAULT_CURRENCY);
+
+  const getCurrencyByLocation = async (): Promise<Currency> => {
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      const data = await response.json();
+      return countryToCurrencyMap[data.country_code] || DEFAULT_CURRENCY;
+    } catch (error) {
+      console.error("Failed to fetch currency by location:", error);
+      return DEFAULT_CURRENCY;
+    }
+  };
+
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      const currency = await getCurrencyByLocation();
+      setCurrency(currency);
+    };
+    fetchCurrency();
+  }, []);
 
   // Sync cart with localStorage whenever it changes
   useEffect(() => {
@@ -137,11 +176,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({
    */
   const getCartTotalCost = useMemo((): number => {
     const totalCost = orderProducts.reduce((total, item) => {
-      const price = item.product.prices[0]?.amount || 0;
+      const price = getPriceAmount(item.product.prices, currency.label) || 0;
       return total + price * item.quantity;
     }, 0);
     return Number(totalCost.toFixed(2));
-  }, [orderProducts]);
+  }, [orderProducts, currency]);
 
   /**
    * Calculates the total quantity of all items in the cart.
@@ -162,6 +201,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({
     getCartTotalQuantity,
     isCartOpen,
     setIsCartOpen,
+    currency,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

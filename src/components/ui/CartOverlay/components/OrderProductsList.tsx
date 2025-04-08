@@ -2,6 +2,7 @@ import type { OrderProduct } from "@/types";
 import { PlusIcon, MinusIcon } from "@/assets/icons";
 import { ProductAttributes } from "@/components/ui";
 import { useCart } from "@/hooks";
+import { getPriceAmount } from "@/utils";
 
 interface OrderProductsListProps {
   items: OrderProduct[];
@@ -10,7 +11,7 @@ interface OrderProductsListProps {
 const OrderProductsList: React.FC<OrderProductsListProps> = ({
   items,
 }: OrderProductsListProps): JSX.Element => {
-  const { updateQuantity } = useCart();
+  const { updateQuantity, currency } = useCart();
 
   if (!items.length) {
     return <p className="text-center my-4 font-medium">Your cart is empty</p>;
@@ -30,7 +31,8 @@ const OrderProductsList: React.FC<OrderProductsListProps> = ({
           <div className="grow">
             <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
             <p className="mb-2" data-testid="cart-item-amount">
-              ${product.prices[0].amount}
+              {currency.symbol}
+              {getPriceAmount(product.prices, currency.label)}
             </p>
             <ProductAttributes
               attributes={product.attributes}

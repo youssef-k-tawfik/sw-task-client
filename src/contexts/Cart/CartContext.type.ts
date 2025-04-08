@@ -1,4 +1,5 @@
 import { OrderProduct, SelectedAttribute } from "@/types";
+import { Currency } from "@/types";
 
 /**
  * Defines the structure and operations of the cart context.
@@ -20,4 +21,5 @@ export interface CartContextType {
   getCartTotalQuantity: number;
   isCartOpen: boolean;
   setIsCartOpen: (isOpen: boolean) => void;
+  currency: Currency;
 }
