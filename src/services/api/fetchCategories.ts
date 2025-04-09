@@ -2,9 +2,11 @@ import axiosInstance from "../axiosInstance";
 
 interface FetchCategoriesResponse {
   data: {
-    categories: { name: string }[];
+    data: {
+      categories: { name: string }[];
+    };
+    errors?: { message: string }[];
   };
-  errors?: { message: string }[];
 }
 
 export const fetchCategories = async (): Promise<string[]> => {
@@ -17,7 +19,7 @@ export const fetchCategories = async (): Promise<string[]> => {
   `;
 
   try {
-    const response = await axiosInstance.post<FetchCategoriesResponse>("", {
+    const response: FetchCategoriesResponse = await axiosInstance.post("", {
       query,
     });
 

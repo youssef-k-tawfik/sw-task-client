@@ -16,6 +16,10 @@ const countryToCurrencyMap: Record<string, Currency> = {
 };
 
 export const getCurrencyByLocation = async (): Promise<Currency> => {
+  if (import.meta.env.MODE === "development") {
+    return DEFAULT_CURRENCY;
+  }
+
   try {
     const response = await fetch("https://ipapi.co/json/");
     const data = await response.json();
