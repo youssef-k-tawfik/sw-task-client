@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ProductCard, Loading, ErrorMessage } from "@/components/ui";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types";
@@ -19,56 +19,33 @@ interface CategoryProps {
 const Category: React.FC<CategoryProps> = ({
   category,
 }: CategoryProps): JSX.Element => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: products = [],
+    error,
+    isLoading,
+    isError,
+  } = useQuery<Product[], Error>({
+    queryKey: ["category", category],
+    queryFn: () => fetchProducts({ category }),
+  });
 
-  useEffect(() => {
-    const abortController = new AbortController();
+  if (isLoading) {
+    return <Loading />;
+  }
 
-    const loadProducts = async () => {
-      try {
-        const products = await fetchProducts(
-          { category },
-          abortController.signal
-        );
-
-        setProducts(products);
-      } catch (err: unknown) {
-        if (
-          err instanceof Error &&
-          err.name !== "CanceledError" &&
-          err.name !== "AbortError"
-        ) {
-          console.error(err.message);
-          setError(
-            `Failed to fetch ${category} products. Please try again later.`
-          );
-        }
-      }
-    };
-
-    loadProducts();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [category]);
-
-  if (error) {
-    return <ErrorMessage error={error} />;
+  if (isError) {
+    return <ErrorMessage error={error?.message || "An error occurred"} />;
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div className="py-14">
-        <h1 className="capitalize mb-14 text-[42px]">{category}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {products?.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+    <div className="py-14">
+      <h1 className="capitalize mb-14 text-[42px]">{category}</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {products?.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
-    </Suspense>
+    </div>
   );
 };
 

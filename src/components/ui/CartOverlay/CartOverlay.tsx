@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useCart } from "@/hooks";
 import OrderProductsList from "./components/OrderProductsList";
 import { placeOrder } from "@/services/api";
 import { Loading } from "@/components/ui";
 import { CartItem } from "@/types";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface CartOverlayProps {
   onClose: () => void;
@@ -17,30 +19,33 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
     clearCart,
     currency,
   } = useCart();
-  const [loading, setLoading] = useState(false);
 
-  const handlePlaceOrder = async () => {
-    console.log("Placing order clicked!");
+  // Function to map cart items to the format required by the backend
+  const mapCartItems = (): CartItem[] => {
+    return orderProducts.map((item) => ({
+      productId: item.product.id,
+      quantity: item.quantity,
+      selectedAttributes: item.selectedAttributes,
+    }));
+  };
 
-    setLoading(true);
-    try {
-      // Mapping cart items to the order item input format required by the backend.
-      const cartItems: CartItem[] = orderProducts.map((item) => ({
-        productId: item.product.id,
-        quantity: item.quantity,
-        selectedAttributes: item.selectedAttributes,
-      }));
-
-      const result = await placeOrder(cartItems, currency.label);
-      console.log("Order placed successfully:", result);
-
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const cartItems = mapCartItems();
+      return await placeOrder(cartItems, currency.label);
+    },
+    onSuccess: () => {
+      toast.success("Order placed successfully!");
       clearCart();
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("Order placement failed:", error);
-      // Optionally show an error notification to the user.
-    } finally {
-      setLoading(false);
-    }
+      toast.error("Failed to place order. Please try again.");
+    },
+  });
+
+  const handlePlaceOrder = () => {
+    mutation.mutate();
   };
 
   return (
@@ -86,7 +91,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
           </button>
         </div>
         {/* Loading overlay */}
-        {loading && (
+        {mutation.isPending && (
           <div className="absolute inset-0 w-full h-full z-20 bg-white/75 flex items-center justify-center">
             <Loading />
           </div>

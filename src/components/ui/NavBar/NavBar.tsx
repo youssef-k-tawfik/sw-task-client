@@ -2,6 +2,8 @@ import { CartIcon } from "@/assets/icons";
 import NavLink from "./components/NavLink";
 import { CartOverlay } from "../CartOverlay";
 import { useCart } from "@/hooks";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCategories } from "@/services/api/fetchCategories";
 
 /**
  * NavBar component renders a navigation bar with links to different categories
@@ -12,6 +14,12 @@ import { useCart } from "@/hooks";
 const NavBar: React.FC = (): JSX.Element => {
   const { getCartTotalQuantity, isCartOpen, setIsCartOpen } = useCart();
 
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+    staleTime: 1000 * 60 * 60, // 1 hour
+  });
+
   const toggleCartOverlay = () => {
     setIsCartOpen(!isCartOpen);
   };
@@ -20,10 +28,11 @@ const NavBar: React.FC = (): JSX.Element => {
     <div className="container flex justify-between items-center fixed left-0 right-0 z-20 bg-white">
       <nav>
         <ul className="flex">
-          <NavLink to="/all">All</NavLink>
-          <NavLink to="/clothes">Clothes</NavLink>
-          <NavLink to="/tech">Tech</NavLink>
-          {/* <NavLink to="/my_orders">My Orders</NavLink> */}
+          {categories?.map((category, i) => (
+            <NavLink key={i + category} to={`/${category}`}>
+              {category}
+            </NavLink>
+          ))}
         </ul>
       </nav>
       <div>

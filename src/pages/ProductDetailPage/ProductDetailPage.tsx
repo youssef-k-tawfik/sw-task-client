@@ -1,4 +1,3 @@
-import { Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types";
@@ -8,6 +7,7 @@ import {
   ProductGallery,
   ProductInfo,
 } from "@/components/ui";
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * ProductDetails component displays the Product Detail Page (PDP) for a product.
@@ -17,44 +17,33 @@ import {
  */
 const ProductDetailPage: React.FC = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: products = [],
+    error,
+    isLoading,
+    isError,
+  } = useQuery<Product[], Error>({
+    queryKey: ["product", id],
+    queryFn: () => fetchProducts({ id }),
+    enabled: !!id,
+  });
 
-  useEffect(() => {
-    const abortController = new AbortController();
+  if (isLoading) return <Loading />;
+  if (isError || !products.length) {
+    return (
+      <ErrorMessage
+        error={error?.message || "Failed to fetch product. Please try again."}
+      />
+    );
+  }
 
-    const loadProduct = async () => {
-      try {
-        const products = await fetchProducts({ id }, abortController.signal);
-        if (products && products?.length > 0) {
-          setProduct(products[0]);
-        }
-      } catch (err: unknown) {
-        if (
-          err instanceof Error &&
-          err.name !== "CanceledError" &&
-          err.name !== "AbortError"
-        ) {
-          console.error(err);
-          setError(`Failed to fetch ${id} product. Please try again later.`);
-        }
-      }
-    };
-
-    loadProduct();
-
-    return () => abortController.abort();
-  }, [id]);
-
-  if (error || !product) return <ErrorMessage error={error} />;
+  const product = products[0];
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div className="flex gap-8 flex-col lg:flex-row lg:gap-0 py-10">
-        <ProductGallery images={product.gallery} />
-        <ProductInfo product={product} />
-      </div>
-    </Suspense>
+    <div className="flex gap-8 flex-col lg:flex-row lg:gap-0 py-10">
+      <ProductGallery images={product.gallery} />
+      <ProductInfo product={product} />
+    </div>
   );
 };
 

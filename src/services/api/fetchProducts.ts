@@ -22,10 +22,7 @@ interface Options {
  * @returns {Promise<Product[]>} - A promise that resolves to the list of products.
  * @throws {Error} - Throws an error if the request fails.
  */
-const fetchProducts = async (
-  options: Options = {},
-  signal?: AbortSignal
-): Promise<Product[]> => {
+const fetchProducts = async (options: Options = {}): Promise<Product[]> => {
   const { category, id } = options;
 
   // Prepare variables for the GraphQL query.
@@ -38,7 +35,7 @@ const fetchProducts = async (
   }
 
   const query: string = `
-    query ($category: String, $id: String) {
+    query Products($category: String, $id: String) {
       products(category: $category, id: $id) {
         id
         name
@@ -74,11 +71,10 @@ const fetchProducts = async (
   `;
 
   try {
-    const response: FetchProductsResponse = await axiosInstance.post(
-      "",
-      { query, variables },
-      { signal }
-    );
+    const response: FetchProductsResponse = await axiosInstance.post("", {
+      query,
+      variables,
+    });
     return response.data.data.products;
   } catch (err) {
     if (
