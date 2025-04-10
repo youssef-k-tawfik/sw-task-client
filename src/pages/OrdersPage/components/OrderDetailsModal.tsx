@@ -1,16 +1,23 @@
-import { ProductAttributes } from "@/components/ui";
-import { Order, OrderProduct } from "@/types";
-import { getPriceAmount } from "@/utils";
+import { Order } from "@/types";
+import OrderProductItem from "./OrderProductItem";
 
 interface OrderDetailsModalProps {
   order: Order;
   onClose: () => void;
 }
 
+/**
+ * Renders a modal displaying the details of an order.
+ *
+ * @param {OrderDetailsModalProps} param - The props for the component.
+ * @param {Order} param.order - The order object containing details to display.
+ * @param {() => void} param.onClose - Callback function to close the modal.
+ * @returns {JSX.Element} The rendered modal component.
+ */
 const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   order,
   onClose,
-}) => {
+}: OrderDetailsModalProps): JSX.Element => {
   const { orderNumber, totalAmount, currency, placedAt, products } = order;
   return (
     <div
@@ -22,12 +29,6 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           Order Details for: {orderNumber}
         </h2>
         <div className="max-h-96 overflow-auto">
-          {/* <p>Order Number: {orderNumber}</p>
-          <p>
-            Total Amount: {currency.symbol}
-            {totalAmount}
-          </p>
-          <p>Placed At: {placedAt}</p> */}
           <table className="w-full text-left border-collapse">
             <tbody className="divide-y-1 divide-slate-200">
               <tr>
@@ -55,6 +56,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               <OrderProductItem
                 key={index + orderProduct.product.name}
                 orderProduct={orderProduct}
+                currency={currency}
               />
             ))}
           </ul>
@@ -71,37 +73,3 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
 };
 
 export default OrderDetailsModal;
-
-const OrderProductItem = ({ orderProduct }: { orderProduct: OrderProduct }) => {
-  const { product, quantity, selectedAttributes } = orderProduct;
-  return (
-    <li className="flex gap-4 justify-between pb-4">
-      {/* product details */}
-      <div className="grow">
-        <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-        <p className="mb-2">
-          <span className="font-semibold text-center">Price: </span>
-          {product.prices[0].currency.symbol}
-          {getPriceAmount(product.prices, product.prices[0].currency.label)}
-        </p>
-        <p className="mb-2">
-          <span className="font-semibold text-center"> Quantity:</span>{" "}
-          {quantity}
-        </p>
-        <ProductAttributes
-          attributes={product.attributes}
-          selectedAttributes={selectedAttributes}
-          variant="small"
-        />
-      </div>
-      {/* product main image */}
-      <div className="w-1/3">
-        <img
-          src={product?.gallery[0]}
-          alt="product image"
-          className="block w-full h-full object-contain"
-        />
-      </div>
-    </li>
-  );
-};

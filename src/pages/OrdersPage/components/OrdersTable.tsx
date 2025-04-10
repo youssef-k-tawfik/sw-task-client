@@ -6,7 +6,16 @@ interface OrdersTableProps {
   onViewOrder: (order: Order) => void;
 }
 
-const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onViewOrder }) => {
+/**
+ * Renders a table displaying a list of orders.
+ *
+ * @param {OrdersTableProps} param - The props for the OrdersTable component.
+ * @returns {JSX.Element} The rendered OrdersTable component.
+ */
+const OrdersTable: React.FC<OrdersTableProps> = ({
+  orders,
+  onViewOrder,
+}: OrdersTableProps): JSX.Element => {
   return (
     <table className="min-w-fit max-w-2xl mx-auto">
       <thead>
