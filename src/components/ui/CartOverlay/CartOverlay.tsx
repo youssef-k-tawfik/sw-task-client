@@ -35,7 +35,6 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       return await placeOrder(cartItems, currency.label);
     },
     onSuccess: () => {
-      toast.success("Order placed successfully!");
       clearCart();
     },
     onError: (error) => {
