@@ -39,14 +39,18 @@ const NavBar: React.FC = (): JSX.Element => {
       <div>
         <img src="/logo.svg" alt="Logo" className="min-h-10 min-w-10" />
       </div>
-      <div onClick={toggleCartOverlay} className="relative cursor-pointer">
-        <CartIcon size={25} data-testid="cart-btn" />
+      <button
+        onClick={toggleCartOverlay}
+        className="relative border-none"
+        data-testid="cart-btn"
+      >
+        <CartIcon size={25} />
         {getCartTotalQuantity > 0 && (
           <span className="font-roboto font-bold text-sm text-white rounded-full w-5 h-5 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid place-items-center">
             {getCartTotalQuantity}
           </span>
         )}
-      </div>
+      </button>
       {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
     </div>
   );
