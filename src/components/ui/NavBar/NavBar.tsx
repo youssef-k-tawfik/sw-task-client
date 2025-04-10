@@ -18,6 +18,7 @@ const NavBar: React.FC = (): JSX.Element => {
     queryKey: ["categories"],
     queryFn: fetchCategories,
     staleTime: 1000 * 60 * 60, // 1 hour
+    placeholderData: ["all", "clothes", "tech"],
   });
 
   const toggleCartOverlay = () => {

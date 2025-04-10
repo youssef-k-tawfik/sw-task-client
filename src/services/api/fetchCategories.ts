@@ -8,7 +8,11 @@ interface FetchCategoriesResponse {
     errors?: { message: string }[];
   };
 }
-
+/**
+ * Fetches a list of category names from the API.
+ *
+ * @returns {Promise<string[]>} A promise that resolves to an array of category names.
+ */
 export const fetchCategories = async (): Promise<string[]> => {
   const query = `
     query {

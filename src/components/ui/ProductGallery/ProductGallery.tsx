@@ -5,9 +5,19 @@ interface ProductGalleryProps {
   images: string[];
 }
 
+/**
+ * ProductGallery component displays a gallery of product images.
+ *
+ * @param {string[]} images - Array of image URLs for the product.
+ * @returns {JSX.Element} - Rendered ProductGallery component.
+ */
 const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState<string>(images[0]);
 
+  /**
+   * Handles the image change when the user clicks on the chevron icons.
+   * @param direction - negative 1 for previous image, positive 1 for next image
+   */
   const handleImageChange = (direction: number) => {
     const currentIndex = images.indexOf(selectedImage);
     const newIndex = (currentIndex + direction + images.length) % images.length;
@@ -31,7 +41,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
         ))}
       </div>
       {/* Main image */}
-      <div className="w-2/3 relative self-start h-[575px]">
+      <div className="w-2/3 self-start h-[575px] sticky top-14">
         <img
           src={selectedImage}
           alt="product image"

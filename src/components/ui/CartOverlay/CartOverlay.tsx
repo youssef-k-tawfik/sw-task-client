@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart } from "@/hooks";
-import OrderProductsList from "./components/OrderProductsList";
+import CartItemsList from "./components/CartItemsList";
 import { placeOrder } from "@/services/api";
 import { Loading } from "@/components/ui";
 import { CartItem } from "@/types";
@@ -55,24 +55,15 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
         data-testid="cart-overlay"
       >
         <div className="p-4">
-          <div className="flex justify-between items-center">
-            <h2 className="font-bold">
-              My Bag,{" "}
-              <span className="font-medium">
-                {getCartTotalQuantity}{" "}
-                {getCartTotalQuantity === 1 ? "item" : "items"}
-              </span>
-            </h2>
-            <button
-              className="px-2 py-1 border text-sm font-semibold bg-red-500 text-white border-red-500 hover:bg-red-600"
-              onClick={clearCart}
-              disabled={getCartTotalQuantity === 0}
-            >
-              Clear Cart
-            </button>
-          </div>
+          <h2 className="font-bold">
+            My Bag,{" "}
+            <span className="font-medium">
+              {getCartTotalQuantity}{" "}
+              {getCartTotalQuantity === 1 ? "item" : "items"}
+            </span>
+          </h2>
           {/* cart items */}
-          <OrderProductsList items={orderProducts} />
+          <CartItemsList items={orderProducts} />
           {/* Price */}
           <div className="flex justify-between items-center">
             <p className="font-roboto font-medium">Total</p>

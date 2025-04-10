@@ -10,6 +10,14 @@ interface ProductInfoProps {
   product: Product;
 }
 
+/**
+ * Renders the ProductInfo component which displays product details,
+ * attributes, price, and allows adding the product to the cart.
+ *
+ * @param {ProductInfoProps} props - The props for the component.
+ * @param {Product} props.product - The product to display information for.
+ * @returns {JSX.Element} The rendered ProductInfo component.
+ */
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   const { addToCart, currency } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState<

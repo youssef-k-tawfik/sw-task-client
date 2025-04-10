@@ -16,7 +16,7 @@ interface PlaceOrderResponse {
 /**
  * Places an order with the given order items.
  *
- * @param {OrderItem[]} orderItems - The items to be ordered.
+ * @param {CartItem[]} cartItems - The items to be ordered.
  * @returns {Promise<string>} - A promise that resolves to the order number.
  * @throws {Error} - Throws an error if the order placement fails.
  */
@@ -46,14 +46,18 @@ const placeOrder = async (
   const orderNumber = response.data.data.placeOrder.order_number;
 
   // append the order number to order_numbers in localStorage
-  const orderNumbers = JSON.parse(
-    localStorage.getItem("order_numbers") || "[]"
-  );
-  orderNumbers.push(orderNumber);
-  localStorage.setItem("order_numbers", JSON.stringify(orderNumbers));
+  addOrderNumberToLocalStorage(orderNumber);
 
   toast.success("Order placed successfully!");
   return orderNumber;
 };
 
 export { placeOrder };
+
+const addOrderNumberToLocalStorage = (orderNumber: string): void => {
+  const orderNumbers = JSON.parse(
+    localStorage.getItem("order_numbers") || "[]"
+  );
+  orderNumbers.push(orderNumber);
+  localStorage.setItem("order_numbers", JSON.stringify(orderNumbers));
+};
