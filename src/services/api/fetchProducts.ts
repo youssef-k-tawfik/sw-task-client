@@ -10,33 +10,34 @@ interface FetchProductsResponse {
   };
 }
 
-interface Options {
+interface ProductQueryVariables {
   category?: string;
+  brand?: string;
   id?: string;
 }
 
 /**
  * Fetches products from the API.
  *
- * @param {Options} [options] - Optional parameters to filter products by category or ID.
+ * @param {ProductQueryVariables} [productQueryVariables] - Optional parameters to filter products by category or ID.
  * @returns {Promise<Product[]>} - A promise that resolves to the list of products.
  * @throws {Error} - Throws an error if the request fails.
  */
-const fetchProducts = async (options: Options = {}): Promise<Product[]> => {
-  const { category, id } = options;
+export const fetchProducts = async (
+  productQueryVariables: ProductQueryVariables = {}
+): Promise<Product[]> => {
+  const { category, brand, id } = productQueryVariables;
 
-  // Prepare variables for the GraphQL query.
-  const variables: Options = {};
-  if (category && category !== "all") {
-    variables.category = category;
-  }
-  if (id) {
-    variables.id = id;
-  }
+  // Prepare variables for the GraphQL query
+  const variables: ProductQueryVariables = {
+    ...(category && category !== "all" && { category }),
+    ...(brand && { brand }),
+    ...(id && { id }),
+  };
 
   const query: string = `
-    query Products($category: String, $id: String) {
-      products(category: $category, id: $id) {
+    query Products($category: String, $brand: String, $id: String) {
+      products(category: $category,brand: $brand, id: $id) {
         id
         name
         inStock
@@ -77,15 +78,7 @@ const fetchProducts = async (options: Options = {}): Promise<Product[]> => {
     });
     return response.data.data.products;
   } catch (err) {
-    if (
-      err instanceof Error &&
-      err.name !== "CanceledError" &&
-      err.name !== "AbortError"
-    ) {
-      console.error("Error fetching products:", err);
-    }
+    console.error("Error fetching products:", err);
     throw err;
   }
 };
-
-export { fetchProducts };

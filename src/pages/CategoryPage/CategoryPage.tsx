@@ -30,7 +30,12 @@ const Category: React.FC<CategoryProps> = ({
   });
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        <h1 className="capitalize m-14 text-[42px]">{category}</h1>
+        <Loading />
+      </>
+    );
   }
 
   if (isError) {
@@ -38,8 +43,8 @@ const Category: React.FC<CategoryProps> = ({
   }
 
   return (
-    <div className="py-14">
-      <h1 className="capitalize mb-14 text-[42px]">{category}</h1>
+    <div className="pb-14">
+      <h1 className="capitalize m-14 text-[42px]">{category}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {products?.map((product) => (
           <ProductCard key={product.id} product={product} />

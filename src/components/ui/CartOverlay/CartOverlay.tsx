@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart } from "@/hooks";
-import OrderProductsList from "./components/OrderProductsList";
+import CartProductsList from "./components/CartProductsList";
 import { placeOrder } from "@/services/api";
 import { Loading } from "@/components/ui";
 import { CartItem } from "@/types";
@@ -72,7 +72,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
             </button>
           </div>
           {/* cart items */}
-          <OrderProductsList items={orderProducts} />
+          <CartProductsList items={orderProducts} />
           {/* Price */}
           <div className="flex justify-between items-center">
             <p className="font-roboto font-medium">Total</p>

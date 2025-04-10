@@ -9,11 +9,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // pages
-const Category = lazy(() =>
+const CategoryPage = lazy(() =>
   import("@/pages").then((module) => ({ default: module.Category }))
 );
-const ProductDetails = lazy(() =>
+const ProductDetailPage = lazy(() =>
   import("@/pages").then((module) => ({ default: module.ProductDetailPage }))
+);
+const OrdersPage = lazy(() =>
+  import("@/pages").then((module) => ({ default: module.OrdersPage }))
 );
 
 // components
@@ -30,7 +33,7 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Category category="all" />,
+        element: <CategoryPage category="all" />,
       },
       {
         path: "/all",
@@ -38,15 +41,19 @@ const routes = createBrowserRouter([
       },
       {
         path: "/clothes",
-        element: <Category category="clothes" />,
+        element: <CategoryPage category="clothes" />,
       },
       {
         path: "/tech",
-        element: <Category category="tech" />,
+        element: <CategoryPage category="tech" />,
       },
       {
         path: "/product/:id",
-        element: <ProductDetails />,
+        element: <ProductDetailPage />,
+      },
+      {
+        path: "/orders",
+        element: <OrdersPage />,
       },
       { path: "*", element: <NotFound /> },
     ],

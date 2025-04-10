@@ -25,28 +25,31 @@ const NavBar: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div className="container flex justify-between items-center fixed left-0 right-0 z-20 bg-white">
-      <nav>
-        <ul className="flex">
-          {categories?.map((category, i) => (
-            <NavLink key={i + category} to={`/${category}`}>
-              {category}
-            </NavLink>
-          ))}
-        </ul>
-      </nav>
-      <div>
-        <img src="/logo.svg" alt="Logo" className="min-h-10 min-w-10" />
+    <div className=" fixed left-0 right-0 z-20 bg-white">
+      <div className="container flex justify-between items-center">
+        <nav>
+          <ul className="flex">
+            {categories?.map((category, i) => (
+              <NavLink key={i + category} to={`/${category}`}>
+                {category}
+              </NavLink>
+            ))}
+            <NavLink to="/orders">My Orders</NavLink>
+          </ul>
+        </nav>
+        <div>
+          <img src="/logo.svg" alt="Logo" className="min-h-10 min-w-10" />
+        </div>
+        <div onClick={toggleCartOverlay} className="relative cursor-pointer">
+          <CartIcon size={25} data-testid="cart-btn" />
+          {getCartTotalQuantity > 0 && (
+            <span className="font-roboto font-bold text-sm text-white rounded-full w-5 h-5 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid place-items-center">
+              {getCartTotalQuantity}
+            </span>
+          )}
+        </div>
+        {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
       </div>
-      <div onClick={toggleCartOverlay} className="relative cursor-pointer">
-        <CartIcon size={25} data-testid="cart-btn" />
-        {getCartTotalQuantity > 0 && (
-          <span className="font-roboto font-bold text-sm text-white rounded-full w-5 h-5 bg-black absolute top-0 end-0 translate-x-1/2 -translate-y-1/2 grid place-items-center">
-            {getCartTotalQuantity}
-          </span>
-        )}
-      </div>
-      {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
     </div>
   );
 };

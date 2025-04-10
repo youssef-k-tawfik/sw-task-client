@@ -4,13 +4,13 @@ import { ProductAttributes } from "@/components/ui";
 import { useCart } from "@/hooks";
 import { getPriceAmount } from "@/utils";
 
-interface OrderProductsListProps {
+interface CartProductsListProps {
   items: OrderProduct[];
 }
 
-const OrderProductsList: React.FC<OrderProductsListProps> = ({
+const CartProductsList: React.FC<CartProductsListProps> = ({
   items,
-}: OrderProductsListProps): JSX.Element => {
+}: CartProductsListProps): JSX.Element => {
   const { updateQuantity, currency } = useCart();
 
   if (!items.length) {
@@ -77,4 +77,4 @@ const OrderProductsList: React.FC<OrderProductsListProps> = ({
   );
 };
 
-export default OrderProductsList;
+export default CartProductsList;

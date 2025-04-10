@@ -6,3 +6,4 @@ export type {
   Currency,
 } from "./product";
 export type { OrderProduct, CartItem, SelectedAttribute } from "./cart";
+export type { Order } from "./Order";
