@@ -4,17 +4,36 @@ This is the frontend test task for Fullstack (React + PHP) at Scandiweb.
 
 ## Getting Started
 
-To run the project, clone the repository and execute the following command:
+1. Clone the repository and navigate to the project directory.
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-## Future Enhancements
+4. Open the application:
 
-The project still has a lot to be added, such as:
-- Handling different currencies
-- Implementing an orders page to check out placed orders
-- And more...
+Navigate to [http://localhost:5173](http://localhost:5173) in your browser.
 
-I am always looking for edits and enhancements to improve this project. If you have any suggestions, please feel free to share them as I am aiming to reach my best. I know this is an endless road, but I try my best.
+## Live Demo
+
+You can see the live demo of the application here: [https://sw-task-client.yousseftawfik.com/](https://sw-task-client.yousseftawfik.com/)
+
+## Future Plans and Enhancements
+
+I am always open to suggestions for improvement. If you have any ideas or feedback, feel free to share them. Continuous improvement is a journey, and every contribution helps make this project better.
+
+## Additional Resources
+
+Additionally, I invite you to explore the `dev` branch, where you can find extra features and ideas under development.
+
+Check out the live demo for the `dev` branch here: [https://sw-task-client-2.yousseftawfik.com/](https://sw-task-client-2.yousseftawfik.com/)
+
+Your feedback on these experimental features is highly appreciated!
