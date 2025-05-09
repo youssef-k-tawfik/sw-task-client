@@ -19,7 +19,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps): JSX.Element => {
-  const { addToCart,currency } = useCart();
+  const { addToCart, currency } = useCart();
 
   const handleAddToCart = () => {
     const selectedAttributes = product.attributes.reduce<SelectedAttribute[]>(
@@ -56,6 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 className="bg-primary border-primary hover:bg-green-500 rounded-full p-2 w-10 h-10 flex justify-center items-center"
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   handleAddToCart();
                 }}
               >

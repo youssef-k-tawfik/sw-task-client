@@ -7,11 +7,7 @@ import { CartItem } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-interface CartOverlayProps {
-  onClose: () => void;
-}
-
-const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
+const CartOverlay: React.FC = (): JSX.Element => {
   const {
     orderProducts,
     getCartTotalCost,
@@ -52,6 +48,9 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       <div
         className="absolute top-full right-0 w-[450px] shadow-lg bg-white z-10 "
         data-testid="cart-overlay"
+        onClick={(event) => {
+          event.stopPropagation();
+        }}
       >
         <div className="p-4">
           <h2 className="font-bold">
@@ -90,7 +89,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ onClose }): JSX.Element => {
       {/* Backdrop */}
       <div
         className="fixed top-14 start-0 w-full h-full bg-[#39374838]/80"
-        onClick={onClose}
+        // onClick={onClose}
       />
     </>
   );

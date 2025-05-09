@@ -26,7 +26,12 @@ const NavBar: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div className="container flex justify-between items-center fixed left-0 right-0 z-20 bg-white">
+    <div
+      className="container flex justify-between items-center fixed left-0 right-0 z-20 bg-white"
+      onClick={() => {
+        setIsCartOpen(false);
+      }}
+    >
       <nav>
         <ul className="flex">
           {categories?.map((category, i) => (
@@ -40,7 +45,10 @@ const NavBar: React.FC = (): JSX.Element => {
         <img src="/logo.svg" alt="Logo" className="min-h-10 min-w-10" />
       </div>
       <button
-        onClick={toggleCartOverlay}
+        onClick={(event) => {
+          event.stopPropagation();
+          toggleCartOverlay();
+        }}
         className="relative border-none"
         data-testid="cart-btn"
       >
@@ -51,7 +59,7 @@ const NavBar: React.FC = (): JSX.Element => {
           </span>
         )}
       </button>
-      {isCartOpen && <CartOverlay onClose={toggleCartOverlay} />}
+      {isCartOpen && <CartOverlay />}
     </div>
   );
 };

@@ -79,7 +79,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
           !product.inStock ||
           selectedAttributes.length < product.attributes.length
         }
-        onClick={handleAddToCart}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleAddToCart();
+        }}
         className="uppercase bg-primary border-primary hover:bg-green-500 text-white font-semibold py-2 px-4 w-full"
         data-testid="add-to-cart"
         title={
