@@ -34,14 +34,25 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   };
 
   // calculate the height when the image is cached
+  // and when the window is resized
   useEffect(() => {
-    const img = mainImageRef.current;
-    if (img) {
-      setMainImageHeight(
-        img.naturalHeight * (img.clientWidth / img.naturalWidth)
-      );
-    }
-  }, []);
+    const calcHeight = () => {
+      setSelectedImage(images[0]);
+      const img = mainImageRef.current;
+      if (img) {
+        setMainImageHeight(
+          img.naturalHeight * (img.clientWidth / img.naturalWidth)
+        );
+      }
+    };
+
+    calcHeight();
+
+    window.addEventListener("resize", calcHeight);
+    return () => {
+      window.removeEventListener("resize", calcHeight);
+    };
+  }, [images]);
 
   /**
    * Handles the image change when the user clicks on the chevron icons.
@@ -55,7 +66,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 
   return (
     <div
-      className="w-full lg:w-2/3 lg:pe-14 flex gap-2 justify-around"
+      className="w-full lg:w-2/3 lg:pe-14 flex gap-2 justify-around transition-all duration-300 ease-in-out"
       data-testid="product-gallery"
     >
       <div
