@@ -1,5 +1,5 @@
 import { ChevronIcon } from "@/assets/icons";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ProductGalleryProps {
   images: string[];
@@ -16,6 +16,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 }): JSX.Element => {
   const [selectedImage, setSelectedImage] = useState<string>(images[0]);
   const [mainImageHeight, setMainImageHeight] = useState<number>(0);
+  const mainImageRef = useRef<HTMLImageElement>(null);
 
   /**
    * Handles the image load event to set the height of the main image.
@@ -24,9 +25,23 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   const handleOnMainImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement>
   ) => {
-    const { height } = event.currentTarget;
-    setMainImageHeight(height);
+    const img = event.currentTarget;
+    if (img.src === images[0]) {
+      setMainImageHeight(
+        img.naturalHeight * (img.clientWidth / img.naturalWidth)
+      );
+    }
   };
+
+  // calculate the height when the image is cached
+  useEffect(() => {
+    const img = mainImageRef.current;
+    if (img) {
+      setMainImageHeight(
+        img.naturalHeight * (img.clientWidth / img.naturalWidth)
+      );
+    }
+  }, []);
 
   /**
    * Handles the image change when the user clicks on the chevron icons.
@@ -59,13 +74,14 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       </div>
       {/* Main image */}
       <div
-        className="w-3/4 relative h-fit"
+        className="w-3/4 relative"
         style={{ height: mainImageHeight || "auto" }}
       >
         <img
           src={selectedImage}
-          alt="selected product image"
+          ref={mainImageRef}
           onLoad={handleOnMainImageLoad}
+          alt="selected product image"
           className="w-full h-full object-contain"
         />
         {images.length > 1 && (
